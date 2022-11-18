@@ -1,6 +1,7 @@
 ﻿using LessCode.EFCore.StronglyTypedIdGenerator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Diagnostics;
 using System.Linq;
 
@@ -39,28 +40,38 @@ namespace LessCode.EFCore.StronglyTypedId
             INamedTypeSymbol namedTypeSymbol = (INamedTypeSymbol)symbol;
             var hasStronglyTypedIdAttr = namedTypeSymbol.GetAttributes().SingleOrDefault(t=>t.AttributeClass.ToString()== "System.HasStronglyTypedIdAttribute");
             var args = hasStronglyTypedIdAttr.ConstructorArguments;
-            if(args.Length<=0)
+            Debug.Assert(args.Length <= 1);
+            string idDataType;
+            if(args.Length<=0)//[HasStronglyTypedId]
             {
-                string ns = namedTypeSymbol.ContainingNamespace.Name;
-                string className = namedTypeSymbol.Name;
-                IdModel model = new IdModel() { ClassName=className,NameSpace=ns,DateType="long"};
-                IdClassTemplate idClassTemplate = new IdClassTemplate();
-                idClassTemplate.Model = model;
-                context.AddSource(className + "Id.generated.cs", idClassTemplate.TransformText());
-
-                /*
-                StringBuilder sbIdClass = new StringBuilder();
-                sbIdClass.Append("namespace ").Append(ns).AppendLine("{");
-                sbIdClass.Append("public class ").Append(className).AppendLine("Id {");
-                sbIdClass.AppendLine("}");
-                sbIdClass.AppendLine("}");
-                context.AddSource(className + "Id.generated.cs", sbIdClass.ToString());*/
+                idDataType = "long";
             }
+            else
+            {
+                var arg0 = args.Single();
+                switch(arg0.Kind)
+                {
+                    case TypedConstantKind.Type:
+                        idDataType = arg0.Value.ToString();
+                        break;
+                    case TypedConstantKind.Primitive:
+                        idDataType = arg0.Value.ToString();
+                        break;
+                    default:
+                        throw new InvalidOperationException($"unsupported {arg0.Kind}");
+                }
+            }
+            string ns = namedTypeSymbol.ContainingNamespace.Name;
+            string className = namedTypeSymbol.Name;
+            IdModel model = new IdModel() { ClassName = className, NameSpace = ns, DataType = idDataType };
+            IdClassTemplate idClassTemplate = new IdClassTemplate();
+            idClassTemplate.Model = model;
+            context.AddSource(className + "Id.generated.cs", idClassTemplate.TransformText());
         }
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            //Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
         }
     }
 }

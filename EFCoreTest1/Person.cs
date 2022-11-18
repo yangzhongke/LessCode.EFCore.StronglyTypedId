@@ -1,7 +1,8 @@
 ﻿namespace EFCoreTest1
 {
-    //[HasStronglyTypedId(typeof(long))]
+    //[HasStronglyTypedId(typeof(Guid))]
     [HasStronglyTypedId]
+    //[HasStronglyTypedId("System.Int64")]
     internal class Person
     {
         public PersonId Id { get; set; }

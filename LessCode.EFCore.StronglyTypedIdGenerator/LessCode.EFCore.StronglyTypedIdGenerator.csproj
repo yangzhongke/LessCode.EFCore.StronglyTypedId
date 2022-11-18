@@ -28,6 +28,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>IdClassTemplate.cs</LastGenOutput>
     </None>
+    <None Update="IdValueConverterTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>IdValueConverterTemplate.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +48,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>IdClassTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="IdValueConverterTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IdValueConverterTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
