@@ -1,0 +1,7 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+namespace <#=Model.NameSpace#>;
+public readonly struct <#=Model.ClassName#>Id
+{
+    public <#=Model.ClassName#>Id(<#=Model.DateType#> value) => Value = value;
+    public <#=Model.DateType#> Value { get; }
+}
