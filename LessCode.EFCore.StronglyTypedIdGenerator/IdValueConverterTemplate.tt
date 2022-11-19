@@ -1,0 +1,13 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+namespace <#=Model.NameSpace#>;
+
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+[StronglyTypedIdValueConverter(typeof(<#=Model.ClassName#>Id))]
+public class <#=Model.ClassName#>IdValueConverter: ValueConverter<<#=Model.ClassName#>Id, <#=Model.DataType#>>
+{
+    public <#=Model.ClassName#>IdValueConverter():base(<#=Model.ClassName#>Id.Converter1, <#=Model.ClassName#>Id.Converter2,default)
+    {
+
+    }
+}

@@ -20,17 +20,17 @@ namespace LessCode.EFCore.StronglyTypedId
                 {
                     continue;
                 }
-                var namespaceNodes = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<NamespaceDeclarationSyntax>();
-                foreach (var namespaceNode in namespaceNodes)
+                var classDefs = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>();
+                foreach (var classDef in classDefs)
                 {
-                    string nsValue = ((IdentifierNameSyntax)namespaceNode.Name).Identifier.Text;
-                    var classDefs = namespaceNode.DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>();
-                    foreach(var classDef in classDefs)
-                    {
-                        ProcessClass(context, semanticModel, classDef);
-                    }
+                    ProcessClass(context, semanticModel, classDef);
                 }
             }
+        }
+
+        private static bool HasEFCoreReference(GeneratorExecutionContext context)
+        {
+            return context.Compilation.ReferencedAssemblyNames.Any(r => r.Name == "Microsoft.EntityFrameworkCore");
         }
 
         private void ProcessClass(GeneratorExecutionContext context,SemanticModel semanticModel, ClassDeclarationSyntax classDef)
@@ -39,6 +39,7 @@ namespace LessCode.EFCore.StronglyTypedId
             if (!(symbol is INamedTypeSymbol)) return;
             INamedTypeSymbol namedTypeSymbol = (INamedTypeSymbol)symbol;
             var hasStronglyTypedIdAttr = namedTypeSymbol.GetAttributes().SingleOrDefault(t=>t.AttributeClass.ToString()== "System.HasStronglyTypedIdAttribute");
+            if (hasStronglyTypedIdAttr == null) return;
             var args = hasStronglyTypedIdAttr.ConstructorArguments;
             Debug.Assert(args.Length <= 1);
             string idDataType;
@@ -51,10 +52,10 @@ namespace LessCode.EFCore.StronglyTypedId
                 var arg0 = args.Single();
                 switch(arg0.Kind)
                 {
-                    case TypedConstantKind.Type:
+                    case TypedConstantKind.Type://[HasStronglyTypedId(typeof(Guid))]
                         idDataType = arg0.Value.ToString();
                         break;
-                    case TypedConstantKind.Primitive:
+                    case TypedConstantKind.Primitive://[HasStronglyTypedId("System.Int64")]
                         idDataType = arg0.Value.ToString();
                         break;
                     default:
@@ -64,14 +65,26 @@ namespace LessCode.EFCore.StronglyTypedId
             string ns = namedTypeSymbol.ContainingNamespace.Name;
             string className = namedTypeSymbol.Name;
             IdModel model = new IdModel() { ClassName = className, NameSpace = ns, DataType = idDataType };
-            IdClassTemplate idClassTemplate = new IdClassTemplate();
+            var idClassTemplate = new IdClassTemplate();
             idClassTemplate.Model = model;
-            context.AddSource(className + "Id.generated.cs", idClassTemplate.TransformText());
+            string codeIdClass = idClassTemplate.TransformText();
+            context.AddSource(className + "Id.generated.cs", codeIdClass);
+            if(HasEFCoreReference(context))
+            {
+                var idValueConverterTemplate = new IdValueConverterTemplate();
+                idValueConverterTemplate.Model = model;
+                string codeValueConverter = idValueConverterTemplate.TransformText();
+                context.AddSource(className + "IdValueConverter.generated.cs", codeValueConverter);
+            }
+            else
+            {
+                context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("ZK001", "EF Core", "Assembly Microsoft.EntityFrameworkCore is not added into the project of the entity types, so ValueConverter types will not be automatically generated. Please add reference of Microsoft.EntityFrameworkCore or write the ValueConverter types manually.", "", DiagnosticSeverity.Warning, true), null));
+            }            
         }
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            //System.Diagnostics.Debugger.Launch();
+           // System.Diagnostics.Debugger.Launch();
         }
     }
 }

@@ -15,9 +15,9 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+    #line 1 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public partial class IdClassTemplate : IdClassTemplateBase
+    public partial class IdValueConverterTemplate : IdValueConverterTemplateBase
     {
 #line hidden
         /// <summary>
@@ -25,70 +25,64 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System.Linq.Expressions;\r\nnamespace ");
+            this.Write("namespace ");
             
-            #line 3 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 2 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.NameSpace));
             
             #line default
             #line hidden
-            this.Write(";\r\n\r\npublic readonly struct ");
+            this.Write(";\r\n\r\nusing Microsoft.EntityFrameworkCore.Storage.ValueConversion;\r\n\r\n[StronglyTyp" +
+                    "edIdValueConverter(typeof(");
             
-            #line 5 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 6 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
-            this.Write("Id\r\n{\r\n    public ");
+            this.Write("Id))]\r\npublic class ");
             
-            #line 7 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 7 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
-            this.Write("Id(");
+            this.Write("IdValueConverter: ValueConverter<");
             
-            #line 7 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
-            
-            #line default
-            #line hidden
-            this.Write(" value) => Value = value;\r\n    public ");
-            
-            #line 8 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
-            
-            #line default
-            #line hidden
-            this.Write(" Value { get; }\r\n\r\n    public static Expression<Func<");
-            
-            #line 10 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 7 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
-            this.Write("Id,");
+            this.Write("Id, ");
             
-            #line 10 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 7 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
             
             #line default
             #line hidden
-            this.Write(">> Converter1=v => v.Value;\r\n    public static Expression<Func<");
+            this.Write(">\r\n{\r\n    public ");
             
-            #line 11 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
-            
-            #line default
-            #line hidden
-            this.Write(", ");
-            
-            #line 11 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 9 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
-            this.Write("Id>> Converter2=v => new(v);\r\n}");
+            this.Write("IdValueConverter():base(");
+            
+            #line 9 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id.Converter1, ");
+            
+            #line 9 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdValueConverterTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id.Converter2,default)\r\n    {\r\n\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -100,7 +94,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
-    public class IdClassTemplateBase
+    public class IdValueConverterTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
