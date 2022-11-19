@@ -38,7 +38,8 @@ namespace LessCode.EFCore.StronglyTypedId
             var symbol = semanticModel.GetDeclaredSymbol(classDef);
             if (!(symbol is INamedTypeSymbol)) return;
             INamedTypeSymbol namedTypeSymbol = (INamedTypeSymbol)symbol;
-            var hasStronglyTypedIdAttr = namedTypeSymbol.GetAttributes().SingleOrDefault(t=>t.AttributeClass.ToString()== "System.HasStronglyTypedIdAttribute");
+            var hasStronglyTypedIdAttr = namedTypeSymbol.GetAttributes()
+                .SingleOrDefault(t => t.AttributeClass.Name == nameof(HasStronglyTypedIdAttribute));
             if (hasStronglyTypedIdAttr == null) return;
             var args = hasStronglyTypedIdAttr.ConstructorArguments;
             Debug.Assert(args.Length <= 1);

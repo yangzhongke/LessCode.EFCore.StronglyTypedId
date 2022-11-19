@@ -15,5 +15,30 @@ namespace <#=Model.NameSpace#>
         {
             return Convert.ToString(Value);
         }
+
+        public override int GetHashCode()
+        {
+            return this.Value.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is <#=Model.ClassName#>Id)
+            {
+                <#=Model.ClassName#>Id objId = (<#=Model.ClassName#>Id)obj;
+                return this.Value==objId.Value;
+            }
+            return base.Equals(obj);
+        }
+
+        public static bool operator ==(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
+        {
+            return c1.Equals(c2);
+        }
+
+        public static bool operator !=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
+        {
+           return !c1.Equals(c2);
+        }
     }
 }
