@@ -88,42 +88,8 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
             
             #line default
             #line hidden
-            this.Write("Id>> Converter2=v => new(v);\r\n\r\n    public static implicit operator ");
-            
-            #line 13 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
-            
-            #line default
-            #line hidden
-            this.Write("Id(");
-            
-            #line 13 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
-            
-            #line default
-            #line hidden
-            this.Write(" value)\r\n    {\r\n        return new ");
-            
-            #line 15 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
-            
-            #line default
-            #line hidden
-            this.Write("Id(value);\r\n    }\r\n\r\n    public static implicit operator ");
-            
-            #line 18 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
-            
-            #line default
-            #line hidden
-            this.Write("(");
-            
-            #line 18 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
-            
-            #line default
-            #line hidden
-            this.Write("Id value)\r\n    {\r\n        return value.Value;\r\n    }\r\n}");
+            this.Write("Id>> Converter2=v => new(v);\r\n\r\n    public override string ToString()\r\n    {\r\n   " +
+                    "     return Convert.ToString(Value);\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

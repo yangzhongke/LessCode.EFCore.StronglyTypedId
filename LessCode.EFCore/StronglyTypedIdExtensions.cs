@@ -20,24 +20,30 @@ namespace LessCode.EFCore
                     if(key.IsPrimaryKey()&& key.Properties.Count == 1)
                     {
                         var keyProp = key.Properties.Single();
-                        Type keyClrType = keyProp.ClrType;//PersonId
-                        Type idClrType = keyClrType.GetProperty("Value", BindingFlags.Public | BindingFlags.Instance |BindingFlags.GetProperty).PropertyType;//long
-                        if (idClrType == typeof(int)|| idClrType == typeof(long))
-                        {
-                            keyProp.ValueGenerated = ValueGenerated.OnAdd;
-                        }
-                        else if(idClrType == typeof(Guid))
-                        {
-                            keyProp.ValueGenerated = ValueGenerated.OnAdd;
-                            keyProp.SetValueGeneratorFactory((p, et) => {
-                                Type typeValueGenerator = 
-                                    typeof(StronglyTypedIdGuidValueGenerator<>).MakeGenericType(keyClrType);
-                                var valueGenerator = Activator.CreateInstance(typeValueGenerator);
-                                return (ValueGenerator)valueGenerator;
-                            });
-                        }
+                        ConfigureStronglyIdProp(keyProp);
                     }
                 }
+            }
+        }
+
+        private static void ConfigureStronglyIdProp(IMutableProperty keyProp)
+        {
+            Type keyClrType = keyProp.ClrType;//PersonId
+            Type idClrType = keyClrType.GetProperty("Value", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty).PropertyType;//long
+            if (idClrType == typeof(int) || idClrType == typeof(long))
+            {
+                keyProp.ValueGenerated = ValueGenerated.OnAdd;
+            }
+            else if (idClrType == typeof(Guid))
+            {
+                keyProp.ValueGenerated = ValueGenerated.OnAdd;
+                keyProp.SetValueGeneratorFactory((p, et) =>
+                {
+                    Type typeValueGenerator =
+                        typeof(StronglyTypedIdGuidValueGenerator<>).MakeGenericType(keyClrType);
+                    var valueGenerator = Activator.CreateInstance(typeValueGenerator);
+                    return (ValueGenerator)valueGenerator;
+                });
             }
         }
 
