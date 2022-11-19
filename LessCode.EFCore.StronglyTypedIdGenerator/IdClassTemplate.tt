@@ -1,17 +1,19 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+using System;
 using System.Linq.Expressions;
-namespace <#=Model.NameSpace#>;
-
-public readonly struct <#=Model.ClassName#>Id
+namespace <#=Model.NameSpace#>
 {
-    public <#=Model.ClassName#>Id(<#=Model.DataType#> value) => Value = value;
-    public <#=Model.DataType#> Value { get; }
-
-    public static Expression<Func<<#=Model.ClassName#>Id,<#=Model.DataType#>>> Converter1=v => v.Value;
-    public static Expression<Func<<#=Model.DataType#>, <#=Model.ClassName#>Id>> Converter2=v => new(v);
-
-    public override string ToString()
+    public readonly struct <#=Model.ClassName#>Id
     {
-        return Convert.ToString(Value);
+        public <#=Model.ClassName#>Id(<#=Model.DataType#> value) => Value = value;
+        public <#=Model.DataType#> Value { get; }
+
+        public static Expression<Func<<#=Model.ClassName#>Id,<#=Model.DataType#>>> Converter1=v => v.Value;
+        public static Expression<Func<<#=Model.DataType#>, <#=Model.ClassName#>Id>> Converter2=v => new <#=Model.ClassName#>Id(v);
+
+        public override string ToString()
+        {
+            return Convert.ToString(Value);
+        }
     }
 }

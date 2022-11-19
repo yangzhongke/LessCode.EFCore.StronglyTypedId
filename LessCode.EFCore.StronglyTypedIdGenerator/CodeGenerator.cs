@@ -78,13 +78,14 @@ namespace LessCode.EFCore.StronglyTypedId
             }
             else
             {
-                context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("ZK001", "EF Core", "Assembly Microsoft.EntityFrameworkCore is not added into the project of the entity types, so ValueConverter types will not be automatically generated. Please add reference of Microsoft.EntityFrameworkCore or write the ValueConverter types manually.", "", DiagnosticSeverity.Warning, true), null));
+                var projectName = context.Compilation.AssemblyName;
+                context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor("ZK001", "EF Core", $"Assembly Microsoft.EntityFrameworkCore is not added into the project '{projectName}', so ValueConverter types will not be automatically generated. Please add reference Microsoft.EntityFrameworkCore to '{projectName}' or write the ValueConverter types manually.", "", DiagnosticSeverity.Warning, true), null));
             }            
         }
 
         public void Initialize(GeneratorInitializationContext context)
         {
-           // System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
         }
     }
 }
