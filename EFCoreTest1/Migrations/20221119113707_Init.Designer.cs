@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreTest1.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    [Migration("20221119020603_Init")]
+    [Migration("20221119113707_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -42,7 +42,10 @@ namespace EFCoreTest1.Migrations
             modelBuilder.Entity("EFCoreTest1.Person", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()

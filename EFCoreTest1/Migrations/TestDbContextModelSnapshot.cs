@@ -39,7 +39,10 @@ namespace EFCoreTest1.Migrations
             modelBuilder.Entity("EFCoreTest1.Person", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
