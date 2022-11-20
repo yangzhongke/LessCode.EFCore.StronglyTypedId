@@ -15,6 +15,13 @@ namespace LessCode.EFCore.StronglyTypedId
             var compilation = context.Compilation;
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
+                //GetSemanticModel() and DescendantNodesAndSelf() are less-performant,
+                //so check the source code first to improve the performance of SourceGenerator
+                if (syntaxTree.TryGetText(out var sourceText)&&
+                    !sourceText.ToString().Contains("[HasStronglyTypedId"))
+                {
+                    continue;
+                }
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
                 if (semanticModel == null)
                 {

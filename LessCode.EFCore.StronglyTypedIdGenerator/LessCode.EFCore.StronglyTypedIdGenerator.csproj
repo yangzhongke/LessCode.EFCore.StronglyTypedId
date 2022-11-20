@@ -4,13 +4,22 @@
 	  <TargetFramework>netstandard2.0</TargetFramework>
 	  <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <IncludeBuildOutput>false</IncludeBuildOutput>
 	  <Version>1.0.0</Version>
 	  <Authors>Zack Yang</Authors>
 	  <PackageProjectUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</PackageProjectUrl>
+	  <Title>Source Generator for StronglyTypedId in EntityFrameworkCore</Title>
+	  <Description>Source Generator for StronglyTypedId in EntityFrameworkCore</Description>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="IdClassTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -35,7 +44,10 @@
   <ItemGroup>
     <ProjectReference Include="..\LessCode.EFCore.StronglyTypedIdCommons\LessCode.EFCore.StronglyTypedIdCommons.csproj" />
   </ItemGroup>
-
+    <ItemGroup>
+	    <!-- Package the generator in the analyzer directory of the nuget package -->
+	    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
   <ItemGroup>
     <None Update="IdClassTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>

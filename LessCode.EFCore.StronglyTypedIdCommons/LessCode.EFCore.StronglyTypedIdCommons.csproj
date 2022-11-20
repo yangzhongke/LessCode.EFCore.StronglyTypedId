@@ -6,6 +6,9 @@
     <Version>1.0.0</Version>
     <Authors>Zack Yang</Authors>
     <RepositoryUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</RepositoryUrl>
+    <Title>Commons Library for LessCode.EFCore.StronglyTypedIdGenerator</Title>
+    <Description>Commons Library for LessCode.EFCore.StronglyTypedIdGenerator</Description>
+    <PackageProjectUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
