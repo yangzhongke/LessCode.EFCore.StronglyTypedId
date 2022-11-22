@@ -1,6 +1,6 @@
 # LessCode.EFCore.StronglyTypedId
 
-[https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId/blob/main/README.md](English version)
+[English version](https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId/blob/main/README.md)
 
 基于source generator技术，这个库可以自动为Entity Framework Core中的实体类生成强类型Id类型。
 

@@ -1,6 +1,6 @@
 # LessCode.EFCore.StronglyTypedId
 
-[https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId/blob/main/README_ZhCN.md](中文版文档)
+[中文版文档](https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId/blob/main/README_ZhCN.md)
 
 With the help of source generator, this library can generate strongly-typed-id classes automatically for entities in Entity Framework Core. 
 
