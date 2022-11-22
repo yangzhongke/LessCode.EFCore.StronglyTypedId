@@ -47,10 +47,24 @@ namespace LessCode.EFCore
             }
         }
 
-        public static void ConfigureStronglyTypedIdConventions(this ModelConfigurationBuilder builder, params Assembly[] assemblies)
+        private static IEnumerable<Assembly> GetAssembliesOfEntityTypes(DbContext dbCtx)
         {
+            foreach (var p in dbCtx.GetType().GetProperties())
+            {
+                var pt = p.PropertyType;
+                if(pt.IsGenericType && pt.GetGenericTypeDefinition() == typeof(DbSet<>))
+                {
+                    Type entityType = pt.GenericTypeArguments[0];
+                    yield return entityType.Assembly;
+                }
+            }
+        }
+
+        public static void ConfigureStronglyTypedIdConventions(this ModelConfigurationBuilder builder, DbContext dbCtx)
+        {
+            var types = GetAssembliesOfEntityTypes(dbCtx).SelectMany(a => a.GetTypes());
             bool stronglyTypedIdFound = false;
-            foreach (var type in assemblies.SelectMany(a => a.GetTypes()))
+            foreach (var type in types)
             {
                 var valueConverterAttr = type.GetCustomAttributes<StronglyTypedIdValueConverterAttribute>().SingleOrDefault();
                 if (valueConverterAttr == null) continue;
@@ -65,11 +79,6 @@ namespace LessCode.EFCore
             {
                 throw new InvalidOperationException($"No automatically generated ValueConverter types were not found. \r\nSolution 1: Add reference of Microsoft.EntityFrameworkCore to the project of entity types;\r\n Solution 2: Write the ValueConverter types manually and remove the calling to {nameof(ConfigureStronglyTypedIdConventions)}.");
             }
-        }
-
-        public static void ConfigureStronglyTypedIdConventions(this ModelConfigurationBuilder builder)
-        {
-            ConfigureStronglyTypedIdConventions(builder, Assembly.GetCallingAssembly());
         }
     }
 }

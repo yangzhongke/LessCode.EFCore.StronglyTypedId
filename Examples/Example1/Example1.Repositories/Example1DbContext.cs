@@ -1,19 +1,19 @@
-﻿using LessCode.EFCore;
+﻿using Example1.Entities;
+using LessCode.EFCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreTest1
+namespace Example1.Repositories
 {
-    internal class TestDbContext: DbContext
+    public class Example1DbContext:DbContext
     {
-        public DbSet<Person> Persons { get; set; }
-        public DbSet<Dog> Dogs { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Book> Books { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connStr = "Server=.;Database=demo1;Integrated Security=true;TrustServerCertificate=true;";
+            string connStr = "Server=.;Database=example1;Integrated Security=true;TrustServerCertificate=true;";
             optionsBuilder.UseSqlServer(connStr);
             optionsBuilder.LogTo(Console.WriteLine);
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -23,7 +23,7 @@ namespace EFCoreTest1
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             base.ConfigureConventions(configurationBuilder);
-            configurationBuilder.ConfigureStronglyTypedIdConventions(this);
+            configurationBuilder.ConfigureStronglyTypedIdConventions();
         }
     }
 }
