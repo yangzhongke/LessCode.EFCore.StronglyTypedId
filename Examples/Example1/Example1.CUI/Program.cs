@@ -1,6 +1,12 @@
 ﻿using Entities;
+using Example1.Entities;
 using Example1.Repositories;
 
 TestRepository rep = new TestRepository();
-AuthorId aId = rep.AddNewAuthor("Zack Yang");
+AuthorId aId = rep.AddAuthor("Zack Yang");
+Console.WriteLine($"Author Created:{aId}");
+BookId bId = rep.AddBook("ASP.NET Core Jishuneimu", 119, aId);
+Console.WriteLine($"Book Created:{bId}");
+
+Book book1 = rep.FindById(bId);
 Console.WriteLine(aId);

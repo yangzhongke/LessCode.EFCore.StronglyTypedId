@@ -1,6 +1,6 @@
 ﻿namespace System
 {
-    [AttributeUsage(AttributeTargets.Class,AllowMultiple =false,Inherited =false)]
+    [AttributeUsage(AttributeTargets.Class| AttributeTargets.Struct| AttributeTargets.Interface, Inherited =false)]
     public class HasStronglyTypedIdAttribute:Attribute
     {
         public HasStronglyTypedIdAttribute()

@@ -27,7 +27,9 @@ namespace LessCode.EFCore.StronglyTypedId
                 {
                     continue;
                 }
-                var classDefs = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<ClassDeclarationSyntax>();
+                //[HasStronglyTypedId] can be applied to class, record, interface or struct.
+                //TypeDeclarationSyntax is the base class of ClassDeclarationSyntax, InterfaceDeclarationSyntax, RecordDeclarationSyntax,and StructDeclarationSyntax.
+                var classDefs = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<TypeDeclarationSyntax>();
                 foreach (var classDef in classDefs)
                 {
                     ProcessClass(context, semanticModel, classDef);
@@ -40,7 +42,7 @@ namespace LessCode.EFCore.StronglyTypedId
             return context.Compilation.ReferencedAssemblyNames.Any(r => r.Name == "Microsoft.EntityFrameworkCore");
         }
 
-        private void ProcessClass(GeneratorExecutionContext context,SemanticModel semanticModel, ClassDeclarationSyntax classDef)
+        private void ProcessClass(GeneratorExecutionContext context,SemanticModel semanticModel, TypeDeclarationSyntax classDef)
         {            
             var symbol = semanticModel.GetDeclaredSymbol(classDef);
             if (!(symbol is INamedTypeSymbol)) return;

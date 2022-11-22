@@ -82,7 +82,7 @@ class TestDbContext: DbContext
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         base.ConfigureConventions(configurationBuilder);
-        configurationBuilder.ConfigureStronglyTypedIdConventions();
+        configurationBuilder.ConfigureStronglyTypedIdConventions(this);
     }
 }
 ```

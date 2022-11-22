@@ -3,7 +3,7 @@
 namespace EntitiesProject2
 {
     [HasStronglyTypedId]
-    public class Cat
+    public record Cat
     {
         public CatId Id { get; set; }
         public string Name { get; set; }
