@@ -3,7 +3,7 @@
 namespace Example1.Entities
 {
     [HasStronglyTypedId]
-    public class Book
+    public record Book
     {
         public BookId Id{get;set;}
         public string Name { get; set; }

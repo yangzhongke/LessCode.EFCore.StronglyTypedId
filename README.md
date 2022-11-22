@@ -1,10 +1,11 @@
 # LessCode.EFCore.StronglyTypedId
+[https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId/blob/main/README.md](English version)
 
 With the help of source generator, this library can generate strongly-typed-id classes automatically for entities in Entity Framework Core. 
 
 Strongly-typed-id, aka "guarded keys", is an important feature in Domain Driven Design (DDD). With Strongly-typed-id, developers can use the instance of a specific class to hold the identity rather than an integer value or a GUID value.
 
-Since .NET 7, Entity framework core has built-in "guarded keys" supports, see [https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew#improved-value-generation](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew#improved-value-generation) .
+Since .NET 7, Entity framework core has built-in "guarded keys" supports, see [https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew?WT.mc_id=DT-MVP-5004444#improved-value-generation](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew?WT.mc_id=DT-MVP-5004444#improved-value-generation) .
 
 According to the documentation, developers have to write many verbose code to use Strongly-typed-id, such as PersonId, PersonIdValueConverter. This library is for generating those code automatically.
 
@@ -16,7 +17,7 @@ Usage:
 Install-Package Microsoft.EntityFrameworkCore
 ```
 
-If the 'Microsoft.EntityFrameworkCore' is not added, Strongly-typed-id classes can be generated, but the valueconverters will not be generated.
+If the 'Microsoft.EntityFrameworkCore' is not added, Strongly-typed-id classes can be generated, but the valueconverter classes will not be generated, and developers should write them manually.
 
 2. Add Nuget package 'LessCode.EFCore.StronglyTypedIdGenerator' to the project where entity classes reside.
 
@@ -30,7 +31,7 @@ Install-Package LessCode.EFCore.StronglyTypedIdGenerator
 Install-Package LessCode.EFCore.StronglyTypedIdCommons
 ```
 
-4. Add the attribute [HasStronglyTypedId] to the class that want to use the Strongly-typed-id. The name of the generated Strongly-typed-id type is 'entity name+id'. For example, if the entity name is Person, the name of the generated Strongly-typed-id type is PersonId.
+4. Add the attribute [HasStronglyTypedId] to the class that wants to use the Strongly-typed-id. The name of the generated Strongly-typed-id type is 'entity name+id'. For example, if the entity name is Person, the name of the generated Strongly-typed-id type is PersonId.
 
 ```csharp
 [HasStronglyTypedId]
@@ -53,7 +54,7 @@ public readonly struct PersonId
 
 The default type for the identity is long, you can specify the identity type with the Type parameter of HasStronglyTypedId. For example, [HasStronglyTypedId(typeof(Guid))] can specifiy the data type of the identity is Guid.
 
-If the Nuget package 'Microsoft.EntityFrameworkCore' is added, a class named PersonIdValueConverter will be generated too.
+If the Nuget package 'Microsoft.EntityFrameworkCore' is added to the project where entity classes reside, a class named PersonIdValueConverter will be generated too.
 
 5. Add the Nuget pacakage "LessCode.EFCore" to the project where XXDbContext resides.
 

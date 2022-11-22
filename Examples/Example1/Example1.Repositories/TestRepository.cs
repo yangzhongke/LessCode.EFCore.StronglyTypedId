@@ -47,7 +47,7 @@ namespace Example1.Repositories
         public Book[] FindBooksByName(string name)
         {
             using Example1DbContext ctx = new Example1DbContext();
-            return ctx.Books.Where(b => b.Name == name).ToArray();
+            return ctx.Books.Include(b => b.Author).Where(b => b.Name == name).ToArray();
         }
     }
 }
