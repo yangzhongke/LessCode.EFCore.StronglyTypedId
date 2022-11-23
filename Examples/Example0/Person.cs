@@ -7,19 +7,10 @@ using System.Threading.Tasks;
 namespace Example0
 {
     [HasStronglyTypedId]
-    class Person:IComparable
+    class Person
     {
         public PersonId Id { get; set; }
         public string Name { get; set; }
-
-        public int CompareTo(object? obj)
-        {
-            Person p2 = obj as Person;
-            if(p2!=null)
-            {
-                return this.Value.CompareTo(obj.Value)
-            }
-        }
     }
 
 }
