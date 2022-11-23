@@ -66,6 +66,7 @@ Install-Package LessCode.EFCore
 Call ConfigureStronglyTypedId() in OnModelCreating() and call ConfigureStronglyTypedIdConventions in ConfigureConventions().
 
 ```csharp
+using LessCode.EFCore;
 class TestDbContext: DbContext
 {
     public DbSet<Person> Persons { get; set; }

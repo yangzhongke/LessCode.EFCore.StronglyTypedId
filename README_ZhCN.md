@@ -4,7 +4,7 @@
 
 基于source generator技术，这个库可以自动为Entity Framework Core中的实体类生成强类型Id类型。
 
-强类型Id，又名“guarded keys”，是模型驱动设计（DDD）中的重要特定。使用强类型Id，开发者可以使用专用类型来保存标识值而不是用整数或者Guid等通用类型来保存。
+强类型Id，又名“guarded keys”，是领域驱动设计（DDD）中的重要特定。使用强类型Id，开发者可以使用专用类型来保存标识值而不是用整数或者Guid等通用类型来保存。
 
 自从.NET 7开始， Entity framework core有了对"guarded keys"的内置支持，详见官方文档[https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew?WT.mc_id=DT-MVP-5004444#improved-value-generation](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-7.0/whatsnew?WT.mc_id=DT-MVP-5004444#improved-value-generation) .
 
@@ -66,6 +66,7 @@ Install-Package LessCode.EFCore
 在OnModelCreating()方法中调用ConfigureStronglyTypedId()，在ConfigureConventions()方法中调用ConfigureStronglyTypedIdConventions()。
 
 ```csharp
+using LessCode.EFCore;
 class TestDbContext: DbContext
 {
     public DbSet<Person> Persons { get; set; }

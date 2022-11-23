@@ -13,4 +13,3 @@ p2.Id = new PersonId(guid1);
 p2.Name = "Mike";
 ctx.Persons.Add(p2);
 ctx.SaveChanges();
-
