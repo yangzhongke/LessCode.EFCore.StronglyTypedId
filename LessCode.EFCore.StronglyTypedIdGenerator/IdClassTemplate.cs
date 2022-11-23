@@ -161,7 +161,81 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
             
             #line default
             #line hidden
-            this.Write("Id c2) \r\n        {\r\n           return !c1.Equals(c2);\r\n        }\r\n    }\r\n}");
+            this.Write("Id c2) \r\n        {\r\n           return !c1.Equals(c2);\r\n        }\r\n\r\n        ");
+            
+            #line 44 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+if(Model.DataType=="long"||Model.DataType=="int"){  
+            
+            #line default
+            #line hidden
+            this.Write("        public static bool operator >(");
+            
+            #line 45 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c1, ");
+            
+            #line 45 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c2)\r\n        {\r\n            return c1.Value>c2.Value;\r\n        }\r\n\r\n        pu" +
+                    "blic static bool operator <(");
+            
+            #line 50 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c1, ");
+            
+            #line 50 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c2)\r\n        {\r\n            return c1.Value < c2.Value;\r\n        }\r\n\r\n        " +
+                    "public static bool operator >=(");
+            
+            #line 55 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c1, ");
+            
+            #line 55 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c2)\r\n        {\r\n            return c1.Value >= c2.Value;\r\n        }\r\n\r\n       " +
+                    " public static bool operator <=(");
+            
+            #line 60 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c1, ");
+            
+            #line 60 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
+            
+            #line default
+            #line hidden
+            this.Write("Id c2)\r\n        {\r\n            return c1.Value <= c2.Value;\r\n        }  \r\n       " +
+                    " ");
+            
+            #line 64 "E:\主同步盘\我的坚果云\MyCode\DOTNET\开源代码\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

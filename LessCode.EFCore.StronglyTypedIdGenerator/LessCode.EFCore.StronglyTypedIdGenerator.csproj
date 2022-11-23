@@ -5,7 +5,7 @@
 	  <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <IncludeBuildOutput>false</IncludeBuildOutput>
-	  <Version>1.0.2</Version>
+	  <Version>1.0.3</Version>
 	  <Authors>Zack Yang</Authors>
 	  <PackageProjectUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</PackageProjectUrl>
 	  <Title>Source Generator for StronglyTypedId in EntityFrameworkCore</Title>

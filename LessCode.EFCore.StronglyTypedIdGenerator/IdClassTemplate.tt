@@ -40,5 +40,27 @@ namespace <#=Model.NameSpace#>
         {
            return !c1.Equals(c2);
         }
+
+        <#if(Model.DataType=="long"||Model.DataType=="int"){  #>
+        public static bool operator >(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
+        {
+            return c1.Value>c2.Value;
+        }
+
+        public static bool operator <(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
+        {
+            return c1.Value < c2.Value;
+        }
+
+        public static bool operator >=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
+        {
+            return c1.Value >= c2.Value;
+        }
+
+        public static bool operator <=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
+        {
+            return c1.Value <= c2.Value;
+        }  
+        <#}#>
     }
 }
