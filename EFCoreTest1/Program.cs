@@ -16,3 +16,4 @@ foreach (var d in ctx.Dogs)
 Console.WriteLine("******************SelectById******************");
 Test1.Select1(ctx, new DogId(Guid.Parse("EBC47B84-8799-4990-A67F-321921255D10")));
 Test1.Select1(ctx, new PersonId(3));
+ctx.Persons.Where(p=>p.Id>new PersonId(3)).ToArray();

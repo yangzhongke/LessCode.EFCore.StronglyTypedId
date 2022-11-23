@@ -1,4 +1,7 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#
+bool isComparable = Model.DataType=="long"||Model.DataType=="int"||Model.DataType=="short";
+#>
 using System;
 using System.Linq.Expressions;
 namespace <#=Model.NameSpace#>
@@ -41,7 +44,7 @@ namespace <#=Model.NameSpace#>
            return !c1.Equals(c2);
         }
 
-        <#if(Model.DataType=="long"||Model.DataType=="int"){  #>
+        <#if(isComparable){  #>
         public static bool operator >(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
             return c1.Value>c2.Value;

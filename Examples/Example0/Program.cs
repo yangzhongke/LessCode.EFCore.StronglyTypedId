@@ -10,7 +10,7 @@ Console.WriteLine(pId1);
 
 Person? p2 = FindById(new PersonId(1));
 Console.WriteLine(p2.Name);
-
+ctx.Persons.Where(p=>p.Id>=new PersonId(2)).ToArray();
 Person? FindById(PersonId pid)
 {
     using TestDbContext ctx = new TestDbContext();
