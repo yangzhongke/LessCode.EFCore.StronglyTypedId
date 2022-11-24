@@ -2,6 +2,8 @@
 
 [中文版文档](https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId/blob/main/README_ZhCN.md)
 
+[Video tutorials](https://www.youtube.com/watch?v=PxKWRVpQ2QM)
+
 With the help of source generator, this library can generate strongly-typed-id classes automatically for entities in Entity Framework Core. 
 
 Strongly-typed-id, aka "guarded keys", is an important feature in Domain Driven Design (DDD). With Strongly-typed-id, developers can use the instance of a specific class to hold the identity rather than an integer value or a GUID value.
