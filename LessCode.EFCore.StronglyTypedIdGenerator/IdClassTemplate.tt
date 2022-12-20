@@ -8,6 +8,12 @@ namespace <#=Model.NameSpace#>
 {
     public readonly struct <#=Model.ClassName#>Id
     {
+        public <#=Model.ClassName#>Id()
+        {
+            <#if(Model.DataType=="System.Guid"){  #>
+            this.Value=Guid.NewGuid();   
+            <#}#>
+        }
         public <#=Model.ClassName#>Id(<#=Model.DataType#> value) => Value = value;
         public <#=Model.DataType#> Value { get; }
 

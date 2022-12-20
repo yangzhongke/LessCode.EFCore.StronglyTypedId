@@ -1,5 +1,9 @@
 ﻿using EFCoreTest1;
 
+Console.WriteLine(new PersonId());
+Console.WriteLine(new DogId());
+
+
 TestDbContext ctx = new TestDbContext();
 
 Console.WriteLine("*******************Insert*****************");
