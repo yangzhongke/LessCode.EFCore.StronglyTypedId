@@ -72,7 +72,8 @@ namespace LessCode.EFCore.StronglyTypedId
                         throw new InvalidOperationException($"unsupported {arg0.Kind}");
                 }
             }
-            string ns = namedTypeSymbol.ContainingNamespace.Name;
+            
+            string ns = namedTypeSymbol.ContainingSymbol.ToDisplayString();
             string className = namedTypeSymbol.Name;
             IdModel model = new IdModel() { ClassName = className, NameSpace = ns, DataType = idDataType };
             var idClassTemplate = new IdClassTemplate();
