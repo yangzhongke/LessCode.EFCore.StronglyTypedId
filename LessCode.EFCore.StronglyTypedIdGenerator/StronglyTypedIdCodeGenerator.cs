@@ -8,7 +8,7 @@ using System.Linq;
 namespace LessCode.EFCore.StronglyTypedId
 {
     [Generator]
-    class CodeGenerator : ISourceGenerator
+    public class StronglyTypedIdCodeGenerator : ISourceGenerator
     {
         public void Execute(GeneratorExecutionContext context)
         {
@@ -48,7 +48,7 @@ namespace LessCode.EFCore.StronglyTypedId
             if (!(symbol is INamedTypeSymbol)) return;
             INamedTypeSymbol namedTypeSymbol = (INamedTypeSymbol)symbol;
             var hasStronglyTypedIdAttr = namedTypeSymbol.GetAttributes()
-                .SingleOrDefault(t => t.AttributeClass.Name == nameof(HasStronglyTypedIdAttribute));
+                .SingleOrDefault(t => t.AttributeClass.Name == nameof(HasStronglyTypedIdAttribute)||t.AttributeClass.Name==nameof(HasStronglyTypedIdAttribute).Replace("Attribute",""));
             if (hasStronglyTypedIdAttr == null) return;
             var args = hasStronglyTypedIdAttr.ConstructorArguments;
             Debug.Assert(args.Length <= 1);
