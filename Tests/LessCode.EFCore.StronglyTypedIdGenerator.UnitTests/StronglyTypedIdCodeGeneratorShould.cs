@@ -40,49 +40,44 @@ namespace EntitiesProject2
             generatorResult.GeneratedSources.Should().HaveCount(1);
             generatorResult.Exception.Should().BeNull();
 
+            //assert the namespace
             var generatedIdClassSyntaxTree = generatorResult.GeneratedSources.Single().SyntaxTree;
             var root = generatedIdClassSyntaxTree.GetRoot();
             var namespaceDeclaration = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().SingleOrDefault();
             namespaceDeclaration.Should().NotBeNull();
             namespaceDeclaration.Name.ToString().Should().Be("EntitiesProject2");
 
+            //assert the struct
             var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
             structDeclaration.Should().NotBeNull();
             structDeclaration.Identifier.Text.Should().Be("CatId");
             structDeclaration.Modifiers.Any(SyntaxKind.ReadOnlyKeyword).Should().BeTrue();
 
-            var constructorDeclarations = structDeclaration.DescendantNodes().OfType<ConstructorDeclarationSyntax>().ToArray();
-            constructorDeclarations.Should().HaveCount(2);
+            //assert the two constructors
+            structDeclaration.Should().HasPublicConstructor();
+            structDeclaration.Should().HasPublicConstructor("long");
 
-            constructorDeclarations[0].Identifier.Text.Should().Be("CatId");
-            constructorDeclarations[1].Identifier.Text.Should().Be("CatId");
+            //assert the property "Vaulue"
+            structDeclaration.Should().HasProperty("Value", "long");
 
-            constructorDeclarations[0].Modifiers.Any(SyntaxKind.PublicKeyword).Should().BeTrue();
-            constructorDeclarations[1].Modifiers.Any(SyntaxKind.PublicKeyword).Should().BeTrue();
-
-            constructorDeclarations.Should().ContainSingle(c => c.ParameterList.Parameters.Count == 0);//parameterless constructor
-            constructorDeclarations.Should().ContainSingle(c => c.ParameterList.Parameters.Count == 1);//public CatId(long value) => Value = value;
-            constructorDeclarations.Should().ContainSingle(c => c.ParameterList.Parameters.Count == 1 && (c.ParameterList.Parameters.Single().Type as PredefinedTypeSyntax).Keyword.ValueText=="long");
-            
+            //assert the two Converter fields(Converter1 and Converter2)
             var fieldDeclarations = structDeclaration.DescendantNodes().OfType<FieldDeclarationSyntax>().ToArray();
             fieldDeclarations.Should().HaveCountGreaterThanOrEqualTo(2);
             fieldDeclarations[0].Declaration.Variables.Single().Identifier.Text.Should().Match("Converter*");
             fieldDeclarations[1].Declaration.Variables.Single().Identifier.Text.Should().Match("Converter*");
 
-            var methodDeclarations = structDeclaration.DescendantNodes().OfType<MethodDeclarationSyntax>().ToArray();
-            methodDeclarations.Should().HaveCountGreaterThanOrEqualTo(3);
-            methodDeclarations.Any(m => m.Identifier.Text == "ToString").Should().BeTrue();
-            methodDeclarations.Any(m => m.Identifier.Text == "GetHashCode").Should().BeTrue();
-            methodDeclarations.Any(m => m.Identifier.Text == "Equals").Should().BeTrue();
+            //assert the two methods "ToString", "GetHashCode" and "Equals"
+            structDeclaration.Should().HasMethod("ToString");
+            structDeclaration.Should().HasMethod("GetHashCode");
+            structDeclaration.Should().HasMethod("Equals");
 
-            var operatorDeclarations = structDeclaration.DescendantNodes().OfType<OperatorDeclarationSyntax>().ToArray();
-            operatorDeclarations.Should().HaveCountGreaterThanOrEqualTo(6);
-            operatorDeclarations.Any(o => o.OperatorToken.Text == "==").Should().BeTrue();
-            operatorDeclarations.Any(o => o.OperatorToken.Text == "!=").Should().BeTrue();
-            operatorDeclarations.Any(o => o.OperatorToken.Text == ">").Should().BeTrue();
-            operatorDeclarations.Any(o => o.OperatorToken.Text == "<").Should().BeTrue();
-            operatorDeclarations.Any(o => o.OperatorToken.Text == ">=").Should().BeTrue();
-            operatorDeclarations.Any(o => o.OperatorToken.Text == "<=").Should().BeTrue();
+            //assert the operators
+            structDeclaration.Should().HasOperator("==");
+            structDeclaration.Should().HasOperator("!=");
+            structDeclaration.Should().HasOperator(">");
+            structDeclaration.Should().HasOperator("<");
+            structDeclaration.Should().HasOperator(">=");
+            structDeclaration.Should().HasOperator("<=");
         }
 
         private static Compilation CreateCompilation(string source)
