@@ -127,5 +127,39 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             idValueConverterNode.BaseList.Types.Should().HaveCount(1);
             idValueConverterNode.BaseList.Types[0].Type.ToString().Should().Be("ValueConverter<CatId, long>");
         }
+
+        [Fact]
+        public void Generate_IdClass_Successfully_Using_File_Scoped_Namespaces()
+        {
+            string sourceCode = @"
+                namespace EntitiesProject2;
+                [HasStronglyTypedId]
+                public record Cat
+                {
+                    public CatId Id { get; set; }
+                    public string Name { get; set; }
+                }";
+            Compilation inputCompilation = CSharpCompilation.Create("compilation",
+                new[] { CSharpSyntaxTree.ParseText(sourceCode) });
+
+            StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();
+            GeneratorDriver driver = CSharpGeneratorDriver.Create(sut);
+            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
+            GeneratorRunResult generatorResult = driver.GetRunResult().Results[0];
+            generatorResult.GeneratedSources.Should().HaveCount(1);
+            generatorResult.Exception.Should().BeNull();
+
+            //assert the namespace
+            var generatedIdClassSyntaxTree = generatorResult.GeneratedSources.Single().SyntaxTree;
+            var root = generatedIdClassSyntaxTree.GetRoot();
+            var namespaceDeclaration = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().SingleOrDefault();
+            namespaceDeclaration.Should().NotBeNull();
+            namespaceDeclaration.Name.ToString().Should().Be("EntitiesProject2");
+
+            //assert the struct
+            var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
+            structDeclaration.Should().NotBeNull();
+            structDeclaration.Identifier.Text.Should().Be("CatId");
+        }
     }
 }
