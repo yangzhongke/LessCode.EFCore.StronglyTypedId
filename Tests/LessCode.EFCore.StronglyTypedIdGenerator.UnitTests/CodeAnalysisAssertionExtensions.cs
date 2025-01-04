@@ -24,21 +24,21 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             return new AndConstraint<ObjectAssertions>(assertions);
         }
 
-        public static AndConstraint<ObjectAssertions> HasProperty(this ObjectAssertions assertions, string propertyName, string typeName)
+        public static AndConstraint<ObjectAssertions> HasProperty(this ObjectAssertions assertions, string propertyName, string propertyTypeName)
         {
             SyntaxNode syntaxNode = (SyntaxNode)assertions.Subject;
             var propertyDeclarationSyntaxValue = syntaxNode.DescendantNodes().OfType<PropertyDeclarationSyntax>().SingleOrDefault(e => e.Identifier.ValueText == propertyName);
             propertyDeclarationSyntaxValue.Should().NotBeNull();
-            ((PredefinedTypeSyntax)propertyDeclarationSyntaxValue.Type).Keyword.ValueText.Should().Be(typeName);
+            ((PredefinedTypeSyntax)propertyDeclarationSyntaxValue.Type).Keyword.ValueText.Should().Be(propertyTypeName);
             return new AndConstraint<ObjectAssertions>(assertions);
         }
 
-        public static AndConstraint<ObjectAssertions> HasPublicConstructor(this ObjectAssertions assertions, params string[] typeNames)
+        public static AndConstraint<ObjectAssertions> HasPublicConstructor(this ObjectAssertions assertions, params string[] argumentTypeNames)
         {
             SyntaxNode syntaxNode = (SyntaxNode)assertions.Subject;
             var constructorDeclarations = syntaxNode.DescendantNodes().OfType<ConstructorDeclarationSyntax>();
             constructorDeclarations.Should().Contain(c=>c.Modifiers.Any(SyntaxKind.PublicKeyword)
-            && c.ParameterList.Parameters.Select(p=>p.Type.ToString()).SequenceEqual(typeNames));
+            && c.ParameterList.Parameters.Select(p=>p.Type.ToString()).SequenceEqual(argumentTypeNames));
             return new AndConstraint<ObjectAssertions>(assertions);
         }
     }
