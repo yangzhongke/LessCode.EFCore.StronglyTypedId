@@ -1,9 +1,11 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ import namespace="System.Linq" #>
 <#
-bool isComparable = Model.DataType=="long"||Model.DataType=="int"||Model.DataType=="short";
+bool isComparable = new string[]{"sbyte","byte","short","ushort","int","uint","long","ulong","nint","nuint"}.Contains(Model.DataType);
 #>
 using System;
 using System.Linq.Expressions;
+
 namespace <#=Model.NameSpace#>
 {
     public readonly struct <#=Model.ClassName#>Id

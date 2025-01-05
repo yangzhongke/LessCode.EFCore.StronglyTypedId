@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -22,17 +23,12 @@ namespace LessCode.EFCore.StronglyTypedId
                 {
                     continue;
                 }
-                var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                if (semanticModel == null)
-                {
-                    continue;
-                }
                 //[HasStronglyTypedId] can be applied to class, record, interface or struct.
                 //TypeDeclarationSyntax is the base class of ClassDeclarationSyntax, InterfaceDeclarationSyntax, RecordDeclarationSyntax,and StructDeclarationSyntax.
                 var classDefs = syntaxTree.GetRoot().DescendantNodesAndSelf().OfType<TypeDeclarationSyntax>();
                 foreach (var classDef in classDefs)
                 {
-                    ProcessClass(context, semanticModel, classDef);
+                    ProcessClass(context, classDef);
                 }
             }
         }
@@ -42,39 +38,26 @@ namespace LessCode.EFCore.StronglyTypedId
             return context.Compilation.ReferencedAssemblyNames.Any(r => r.Name == "Microsoft.EntityFrameworkCore");
         }
 
-        private void ProcessClass(GeneratorExecutionContext context,SemanticModel semanticModel, TypeDeclarationSyntax classDef)
-        {            
-            var symbol = semanticModel.GetDeclaredSymbol(classDef);
-            if (!(symbol is INamedTypeSymbol)) return;
-            INamedTypeSymbol namedTypeSymbol = (INamedTypeSymbol)symbol;
-            var hasStronglyTypedIdAttr = namedTypeSymbol.GetAttributes()
-                .SingleOrDefault(t => t.AttributeClass.Name == nameof(HasStronglyTypedIdAttribute)||t.AttributeClass.Name==nameof(HasStronglyTypedIdAttribute).Replace("Attribute",""));
-            if (hasStronglyTypedIdAttr == null) return;
-            var args = hasStronglyTypedIdAttr.ConstructorArguments;
-            Debug.Assert(args.Length <= 1);
+        private void ProcessClass(GeneratorExecutionContext context, TypeDeclarationSyntax classDef)
+        {
+            string ns = ((BaseNamespaceDeclarationSyntax)classDef.Parent).Name.GetText().ToString();
+            string className = classDef.Identifier.Text;
+            var hasStronglyTypedIdAttr = classDef.ChildNodes().OfType<AttributeListSyntax>().Single().ChildNodes().OfType<AttributeSyntax>().Single(e=>e.Name.GetText().ToString()== nameof(HasStronglyTypedIdAttribute) || e.Name.GetText().ToString() == nameof(HasStronglyTypedIdAttribute).Replace("Attribute", ""));
+            IEnumerable<AttributeArgumentSyntax> args = new AttributeArgumentSyntax[0]; 
+            if (hasStronglyTypedIdAttr.ArgumentList != null)
+                args = hasStronglyTypedIdAttr.ArgumentList.Arguments;
+            Debug.Assert(args.Count() <= 1);
             string idDataType;
-            if(args.Length<=0)//[HasStronglyTypedId]
+            if(args.Count() <= 0)//[HasStronglyTypedId]
             {
                 idDataType = "long";
             }
             else
             {
                 var arg0 = args.Single();
-                switch(arg0.Kind)
-                {
-                    case TypedConstantKind.Type://[HasStronglyTypedId(typeof(Guid))]
-                        idDataType = arg0.Value.ToString();
-                        break;
-                    case TypedConstantKind.Primitive://[HasStronglyTypedId("System.Int64")]
-                        idDataType = arg0.Value.ToString();
-                        break;
-                    default:
-                        throw new InvalidOperationException($"unsupported {arg0.Kind}");
-                }
+                TypeSyntax type = ((TypeOfExpressionSyntax)arg0.Expression).Type;
+                idDataType = CodeAnalysisHelper.GetTypeName(type);
             }
-            
-            string ns = namedTypeSymbol.ContainingSymbol.ToDisplayString();
-            string className = namedTypeSymbol.Name;
             IdModel model = new IdModel() { ClassName = className, NameSpace = ns, DataType = idDataType };
             var idClassTemplate = new IdClassTemplate();
             idClassTemplate.Model = model;

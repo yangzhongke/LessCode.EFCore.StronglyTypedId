@@ -4,6 +4,7 @@ using LessCode.EFCore.StronglyTypedId;
 using FluentAssertions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
 {
@@ -160,6 +161,70 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
             structDeclaration.Should().NotBeNull();
             structDeclaration.Identifier.Text.Should().Be("CatId");
+        }
+
+        [Theory]
+        [InlineData("sbyte")]
+        [InlineData("byte")]
+        [InlineData("short")]
+        [InlineData("ushort")]
+        [InlineData("int")]
+        [InlineData("uint")]
+        [InlineData("long")]
+        [InlineData("ulong")]
+        [InlineData("nint")]
+        [InlineData("nuint")]
+        public void Generate_IdClass_Successfully_When_With_IntegralType(string idType)
+        {
+            /*
+            string sourceCode = $@"
+                namespace EntitiesProject2
+                {{
+                    [HasStronglyTypedId(typeof({idType}))]
+                    public class Cat
+                    {{
+                        public CatId Id {{ get; set; }}
+                        public string Name {{ get; set; }}
+                    }}
+                }}";*/
+            string sourceCode = $@"
+                namespace EntitiesProject2;
+                    [HasStronglyTypedId(typeof({idType}))]
+                    public class Cat
+                    {{
+                        public CatId Id {{ get; set; }}
+                        public string Name {{ get; set; }}
+                    }}";
+            Compilation inputCompilation = CSharpCompilation.Create(null, syntaxTrees: new[] { CSharpSyntaxTree.ParseText(sourceCode) });
+
+            StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();
+            GeneratorDriver driver = CSharpGeneratorDriver.Create(sut);
+            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
+            GeneratorRunResult generatorResult = driver.GetRunResult().Results[0];
+            generatorResult.Exception.Should().BeNull();
+
+            //assert the namespace
+            var generatedIdClassSyntaxTree = generatorResult.GeneratedSources.Single().SyntaxTree;
+            var root = generatedIdClassSyntaxTree.GetRoot();
+            var namespaceDeclaration = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().SingleOrDefault();
+
+            //assert the struct
+            var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
+
+            //assert the two constructors
+            structDeclaration.Should().HasPublicConstructor();
+            structDeclaration.Should().HasPublicConstructor(idType);
+
+            //assert the property "Vaulue"
+            structDeclaration.Should().HasProperty("Value", idType);
+
+            //assert the operators
+            structDeclaration.Should().HasOperator("==");
+            structDeclaration.Should().HasOperator("!=");
+            structDeclaration.Should().HasOperator(">");
+            structDeclaration.Should().HasOperator("<");
+            structDeclaration.Should().HasOperator(">=");
+            structDeclaration.Should().HasOperator("<=");
         }
     }
 }
