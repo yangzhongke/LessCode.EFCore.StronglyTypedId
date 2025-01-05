@@ -4,7 +4,6 @@ using LessCode.EFCore.StronglyTypedId;
 using FluentAssertions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
 {
@@ -23,7 +22,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
                         public string Name { get; set; }
                     }
                 }";
-            Compilation inputCompilation = CSharpCompilation.Create("compilation",
+            Compilation inputCompilation = CSharpCompilation.Create(null,
                 new[] { CSharpSyntaxTree.ParseText(sourceCode) });
 
             StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();
@@ -89,7 +88,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
                         public string Name { get; set; }
                     }
                 }";
-            Compilation inputCompilation = CSharpCompilation.Create("compilation",
+            Compilation inputCompilation = CSharpCompilation.Create(null,
                 new[] { CSharpSyntaxTree.ParseText(sourceCode) },
                 references:new MetadataReference[] { MetadataReference.CreateFromFile(typeof(DbContext).Assembly.Location)});
 
@@ -140,7 +139,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
                     public CatId Id { get; set; }
                     public string Name { get; set; }
                 }";
-            Compilation inputCompilation = CSharpCompilation.Create("compilation",
+            Compilation inputCompilation = CSharpCompilation.Create(null,
                 new[] { CSharpSyntaxTree.ParseText(sourceCode) });
 
             StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();
@@ -171,12 +170,15 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
         [InlineData("int")]
         [InlineData("uint")]
         [InlineData("long")]
+        [InlineData("long")]
         [InlineData("ulong")]
         [InlineData("nint")]
-        [InlineData("nuint")]
+        [InlineData("Int64")]
+        [InlineData("System.Int64")]
+        [InlineData("Int32")]
+        [InlineData("System.Int32")]
         public void Generate_IdClass_Successfully_When_With_IntegralType(string idType)
-        {
-            /*
+        {            
             string sourceCode = $@"
                 namespace EntitiesProject2
                 {{
@@ -186,15 +188,56 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
                         public CatId Id {{ get; set; }}
                         public string Name {{ get; set; }}
                     }}
-                }}";*/
+                }}";
+            Compilation inputCompilation = CSharpCompilation.Create(null, syntaxTrees: new[] { CSharpSyntaxTree.ParseText(sourceCode) });
+
+            StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();
+            GeneratorDriver driver = CSharpGeneratorDriver.Create(sut);
+            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
+            GeneratorRunResult generatorResult = driver.GetRunResult().Results[0];
+            generatorResult.Exception.Should().BeNull();
+
+            //assert the namespace
+            var generatedIdClassSyntaxTree = generatorResult.GeneratedSources.Single().SyntaxTree;
+            var root = generatedIdClassSyntaxTree.GetRoot();
+            var namespaceDeclaration = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().SingleOrDefault();
+
+            //assert the struct
+            var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
+
+            //assert the two constructors
+            structDeclaration.Should().HasPublicConstructor();
+            structDeclaration.Should().HasPublicConstructor(idType);
+
+            //assert the property "Vaulue"
+            structDeclaration.Should().HasProperty("Value", idType);
+
+            //assert the operators
+            structDeclaration.Should().HasOperator("==");
+            structDeclaration.Should().HasOperator("!=");
+            structDeclaration.Should().HasOperator(">");
+            structDeclaration.Should().HasOperator("<");
+            structDeclaration.Should().HasOperator(">=");
+            structDeclaration.Should().HasOperator("<=");
+        }
+
+        [Theory]
+        [InlineData("Guid")]
+        [InlineData("string")]
+        [InlineData("String")]
+        [InlineData("System.String")]
+        public void Generate_IdClass_Successfully_When_With_NonIntegralType(string idType)
+        {
             string sourceCode = $@"
-                namespace EntitiesProject2;
+                namespace EntitiesProject2
+                {{
                     [HasStronglyTypedId(typeof({idType}))]
                     public class Cat
                     {{
                         public CatId Id {{ get; set; }}
                         public string Name {{ get; set; }}
-                    }}";
+                    }}
+                }}";
             Compilation inputCompilation = CSharpCompilation.Create(null, syntaxTrees: new[] { CSharpSyntaxTree.ParseText(sourceCode) });
 
             StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();

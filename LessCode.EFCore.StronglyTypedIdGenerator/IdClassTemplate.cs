@@ -10,6 +10,7 @@
 namespace LessCode.EFCore.StronglyTypedIdGenerator
 {
     using System.Linq;
+    using LessCode.EFCore.StronglyTypedIdGenerator;
     using System;
     
     /// <summary>
@@ -26,101 +27,102 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("\r\n");
             
-            #line 3 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 5 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 
-bool isComparable = new string[]{"sbyte","byte","short","ushort","int","uint","long","ulong","nint","nuint"}.Contains(Model.DataType);
+bool isComparable = typeof(IComparable).IsAssignableFrom(CodeAnalysisHelper.ResolveTypeWithRoslyn(Model.DataType));
 
             
             #line default
             #line hidden
             this.Write("using System;\r\nusing System.Linq.Expressions;\r\n\r\nnamespace ");
             
-            #line 9 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 11 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.NameSpace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    public readonly struct ");
             
-            #line 11 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 13 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id\r\n    {\r\n        public ");
             
-            #line 13 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 15 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id()\r\n        {\r\n            ");
             
-            #line 15 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 17 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 if(Model.DataType=="System.Guid"){  
             
             #line default
             #line hidden
             this.Write("            this.Value=Guid.NewGuid();   \r\n            ");
             
-            #line 17 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 19 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("        }\r\n        public ");
             
-            #line 19 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 21 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id(");
             
-            #line 19 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 21 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
             
             #line default
             #line hidden
             this.Write(" value) => Value = value;\r\n        public ");
             
-            #line 20 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 22 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
             
             #line default
             #line hidden
             this.Write(" Value { get; }\r\n\r\n        public static Expression<Func<");
             
-            #line 22 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 24 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id,");
             
-            #line 22 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 24 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
             
             #line default
             #line hidden
             this.Write(">> Converter1=v => v.Value;\r\n        public static Expression<Func<");
             
-            #line 23 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 25 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataType));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 23 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 25 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id>> Converter2=v => new ");
             
-            #line 23 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 25 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
@@ -141,21 +143,21 @@ if(Model.DataType=="System.Guid"){
         {
             if(obj is ");
             
-            #line 37 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 39 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id)\r\n            {\r\n                ");
             
-            #line 39 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 41 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id objId = (");
             
-            #line 39 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 41 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
@@ -164,14 +166,14 @@ if(Model.DataType=="System.Guid"){
                     "    return base.Equals(obj);\r\n        }\r\n\r\n        public static bool operator =" +
                     "=(");
             
-            #line 45 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 47 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id c1, ");
             
-            #line 45 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 47 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
@@ -179,35 +181,35 @@ if(Model.DataType=="System.Guid"){
             this.Write("Id c2) \r\n        {\r\n            return c1.Equals(c2);\r\n        }\r\n\r\n        publi" +
                     "c static bool operator !=(");
             
-            #line 50 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 52 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id c1, ");
             
-            #line 50 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 52 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id c2) \r\n        {\r\n           return !c1.Equals(c2);\r\n        }\r\n\r\n        ");
             
-            #line 55 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 57 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 if(isComparable){  
             
             #line default
             #line hidden
             this.Write("        public static bool operator >(");
             
-            #line 56 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 58 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id c1, ");
             
-            #line 56 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 58 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
@@ -215,14 +217,14 @@ if(isComparable){
             this.Write("Id c2)\r\n        {\r\n            return c1.Value>c2.Value;\r\n        }\r\n\r\n        pu" +
                     "blic static bool operator <(");
             
-            #line 61 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 63 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id c1, ");
             
-            #line 61 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 63 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
@@ -230,14 +232,14 @@ if(isComparable){
             this.Write("Id c2)\r\n        {\r\n            return c1.Value < c2.Value;\r\n        }\r\n\r\n        " +
                     "public static bool operator >=(");
             
-            #line 66 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 68 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id c1, ");
             
-            #line 66 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 68 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
@@ -245,14 +247,14 @@ if(isComparable){
             this.Write("Id c2)\r\n        {\r\n            return c1.Value >= c2.Value;\r\n        }\r\n\r\n       " +
                     " public static bool operator <=(");
             
-            #line 71 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 73 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write("Id c1, ");
             
-            #line 71 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 73 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
@@ -260,7 +262,7 @@ if(isComparable){
             this.Write("Id c2)\r\n        {\r\n            return c1.Value <= c2.Value;\r\n        }  \r\n       " +
                     " ");
             
-            #line 75 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
+            #line 77 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 }
             
             #line default

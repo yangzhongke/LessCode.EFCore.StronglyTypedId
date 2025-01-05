@@ -1,7 +1,9 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="LessCode.EFCore.StronglyTypedIdGenerator" #>
+
 <#
-bool isComparable = new string[]{"sbyte","byte","short","ushort","int","uint","long","ulong","nint","nuint"}.Contains(Model.DataType);
+bool isComparable = typeof(IComparable).IsAssignableFrom(CodeAnalysisHelper.ResolveTypeWithRoslyn(Model.DataType));
 #>
 using System;
 using System.Linq.Expressions;

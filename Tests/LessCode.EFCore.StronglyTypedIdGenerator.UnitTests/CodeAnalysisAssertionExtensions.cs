@@ -29,7 +29,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             SyntaxNode syntaxNode = (SyntaxNode)assertions.Subject;
             var propertyDeclarationSyntaxValue = syntaxNode.DescendantNodes().OfType<PropertyDeclarationSyntax>().SingleOrDefault(e => e.Identifier.ValueText == propertyName);
             propertyDeclarationSyntaxValue.Should().NotBeNull();
-            CodeAnalysisHelper.GetTypeName(propertyDeclarationSyntaxValue.Type).Should().Be(propertyTypeName);
+            propertyDeclarationSyntaxValue.Type.ToFullString().Trim().Should().Be(propertyTypeName);
             return new AndConstraint<ObjectAssertions>(assertions);
         }
 
