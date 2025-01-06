@@ -49,11 +49,11 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             structDeclaration.Modifiers.Any(SyntaxKind.ReadOnlyKeyword).Should().BeTrue();
 
             //assert the two constructors
-            structDeclaration.Should().HasPublicConstructor();
-            structDeclaration.Should().HasPublicConstructor("long");
+            structDeclaration.HasPublicConstructor().Should().BeTrue();
+            structDeclaration.HasPublicConstructor("long").Should().BeTrue();
 
             //assert the property "Vaulue"
-            structDeclaration.Should().HasProperty("Value", "long");
+            structDeclaration.HasProperty("Value", "long").Should().BeTrue();
 
             //assert the two Converter fields(Converter1 and Converter2)
             var fieldDeclarations = structDeclaration.DescendantNodes().OfType<FieldDeclarationSyntax>().ToArray();
@@ -62,17 +62,17 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             fieldDeclarations[1].Declaration.Variables.Single().Identifier.Text.Should().Match("Converter*");
 
             //assert the two methods "ToString", "GetHashCode" and "Equals"
-            structDeclaration.Should().HasMethod("ToString");
-            structDeclaration.Should().HasMethod("GetHashCode");
-            structDeclaration.Should().HasMethod("Equals");
+            structDeclaration.HasMethod("ToString").Should().BeTrue();
+            structDeclaration.HasMethod("GetHashCode").Should().BeTrue();
+            structDeclaration.HasMethod("Equals");
 
             //assert the operators
-            structDeclaration.Should().HasOperator("==");
-            structDeclaration.Should().HasOperator("!=");
-            structDeclaration.Should().HasOperator(">");
-            structDeclaration.Should().HasOperator("<");
-            structDeclaration.Should().HasOperator(">=");
-            structDeclaration.Should().HasOperator("<=");
+            structDeclaration.HasOperator("==").Should().BeTrue();
+            structDeclaration.HasOperator("!=").Should().BeTrue();
+            structDeclaration.HasOperator(">").Should().BeTrue();
+            structDeclaration.HasOperator("<").Should().BeTrue();
+            structDeclaration.HasOperator(">=").Should().BeTrue();
+            structDeclaration.HasOperator("<=").Should().BeTrue();
         }
 
         [Fact]
@@ -170,7 +170,6 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
         [InlineData("int")]
         [InlineData("uint")]
         [InlineData("long")]
-        [InlineData("long")]
         [InlineData("ulong")]
         [InlineData("nint")]
         [InlineData("Int64")]
@@ -206,27 +205,26 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
 
             //assert the two constructors
-            structDeclaration.Should().HasPublicConstructor();
-            structDeclaration.Should().HasPublicConstructor(idType);
+            structDeclaration.HasPublicConstructor().Should().BeTrue();
+            structDeclaration.HasPublicConstructor(idType).Should().BeTrue();
 
             //assert the property "Vaulue"
-            structDeclaration.Should().HasProperty("Value", idType);
+            structDeclaration.HasProperty("Value", idType).Should().BeTrue();
 
             //assert the operators
-            structDeclaration.Should().HasOperator("==");
-            structDeclaration.Should().HasOperator("!=");
-            structDeclaration.Should().HasOperator(">");
-            structDeclaration.Should().HasOperator("<");
-            structDeclaration.Should().HasOperator(">=");
-            structDeclaration.Should().HasOperator("<=");
+            structDeclaration.HasOperator("==").Should().BeTrue();
+            structDeclaration.HasOperator("!=").Should().BeTrue();
+            structDeclaration.HasOperator(">").Should().BeTrue();
+            structDeclaration.HasOperator("<").Should().BeTrue();
+            structDeclaration.HasOperator(">=").Should().BeTrue();
+            structDeclaration.HasOperator("<=").Should().BeTrue();
         }
 
         [Theory]
-        [InlineData("Guid")]
         [InlineData("string")]
         [InlineData("String")]
         [InlineData("System.String")]
-        public void Generate_IdClass_Successfully_When_With_NonIntegralType(string idType)
+        public void Generate_IdClass_Successfully_When_With_StringId(string idType)
         {
             string sourceCode = $@"
                 namespace EntitiesProject2
@@ -251,23 +249,67 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             var root = generatedIdClassSyntaxTree.GetRoot();
             var namespaceDeclaration = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().SingleOrDefault();
 
-            //assert the struct
             var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
 
             //assert the two constructors
-            structDeclaration.Should().HasPublicConstructor();
-            structDeclaration.Should().HasPublicConstructor(idType);
+            structDeclaration.HasPublicConstructor().Should().BeTrue();
+            structDeclaration.HasPublicConstructor(idType).Should().BeTrue();
 
             //assert the property "Vaulue"
-            structDeclaration.Should().HasProperty("Value", idType);
+            structDeclaration.HasProperty("Value", idType).Should().BeTrue();
 
             //assert the operators
-            structDeclaration.Should().HasOperator("==");
-            structDeclaration.Should().HasOperator("!=");
-            structDeclaration.Should().HasOperator(">");
-            structDeclaration.Should().HasOperator("<");
-            structDeclaration.Should().HasOperator(">=");
-            structDeclaration.Should().HasOperator("<=");
+            structDeclaration.HasOperator("==").Should().BeTrue();
+            structDeclaration.HasOperator("!=").Should().BeTrue();
+            structDeclaration.HasOperator(">").Should().BeFalse();
+            structDeclaration.HasOperator("<").Should().BeFalse();
+            structDeclaration.HasOperator(">=").Should().BeFalse();
+            structDeclaration.HasOperator("<=").Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData("Guid")]
+        [InlineData("System.Guid")]
+        public void Generate_IdClass_Successfully_When_With_GuidId(string idType)
+        {
+            string sourceCode = $@"
+                namespace EntitiesProject2
+                {{
+                    [HasStronglyTypedId(typeof({idType}))]
+                    public class Cat
+                    {{
+                        public CatId Id {{ get; set; }}
+                        public string Name {{ get; set; }}
+                    }}
+                }}";
+            Compilation inputCompilation = CSharpCompilation.Create(null, syntaxTrees: new[] { CSharpSyntaxTree.ParseText(sourceCode) });
+
+            StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();
+            GeneratorDriver driver = CSharpGeneratorDriver.Create(sut);
+            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
+            GeneratorRunResult generatorResult = driver.GetRunResult().Results[0];
+            generatorResult.Exception.Should().BeNull();
+            //assert the namespace
+            var generatedIdClassSyntaxTree = generatorResult.GeneratedSources.Single().SyntaxTree;
+            var root = generatedIdClassSyntaxTree.GetRoot();
+            var namespaceDeclaration = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().SingleOrDefault();
+
+            var structDeclaration = namespaceDeclaration.DescendantNodes().OfType<StructDeclarationSyntax>().SingleOrDefault();
+
+            //assert the two constructors
+            structDeclaration.HasPublicConstructor().Should().BeTrue();
+            structDeclaration.HasPublicConstructor(idType).Should().BeTrue();
+
+            //assert the property "Vaulue"
+            structDeclaration.HasProperty("Value", idType).Should().BeTrue();
+
+            //assert the operators
+            structDeclaration.HasOperator("==").Should().BeTrue();
+            structDeclaration.HasOperator("!=").Should().BeTrue();
+            structDeclaration.HasOperator(">").Should().BeTrue();
+            structDeclaration.HasOperator("<").Should().BeTrue();
+            structDeclaration.HasOperator(">=").Should().BeTrue();
+            structDeclaration.HasOperator("<=").Should().BeTrue();
         }
     }
 }

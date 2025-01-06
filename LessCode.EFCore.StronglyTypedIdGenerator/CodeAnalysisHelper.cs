@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Linq.Expressions;
 
 namespace LessCode.EFCore.StronglyTypedIdGenerator
 {
@@ -88,6 +89,27 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
             var typeSymbol = semanticModel.GetSymbolInfo(typeSyntax).Symbol;
             string typeFullName = typeSymbol.ContainingNamespace + "." + typeSymbol.MetadataName;
             return Type.GetType(typeFullName);
+        }
+
+        public static bool SupportsBinaryOperator(Type type, ExpressionType operation)
+        {
+            try
+            {
+                // Create two parameters of the given type
+                var left = Expression.Parameter(type, "left");
+                var right = Expression.Parameter(type, "right");
+
+                // Try to create a binary expression for the specified operator
+                var binaryExpression = Expression.MakeBinary(operation, left, right);
+
+                // If we successfully create the expression, the operator exists
+                return binaryExpression != null;
+            }
+            catch(InvalidOperationException)
+            {                
+                // If an exception occurs, the operator is not supported
+                return false;
+            }
         }
     }
 }

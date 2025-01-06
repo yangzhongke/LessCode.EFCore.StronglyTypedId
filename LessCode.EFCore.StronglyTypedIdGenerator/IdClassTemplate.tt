@@ -1,9 +1,10 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Linq.Expressions" #>
 <#@ import namespace="LessCode.EFCore.StronglyTypedIdGenerator" #>
 
 <#
-bool isComparable = typeof(IComparable).IsAssignableFrom(CodeAnalysisHelper.ResolveTypeWithRoslyn(Model.DataType));
+Type modelDataType = CodeAnalysisHelper.ResolveTypeWithRoslyn(Model.DataType);
 #>
 using System;
 using System.Linq.Expressions;
@@ -14,7 +15,7 @@ namespace <#=Model.NameSpace#>
     {
         public <#=Model.ClassName#>Id()
         {
-            <#if(Model.DataType=="System.Guid"){  #>
+            <#if(modelDataType==typeof(Guid)){  #>
             this.Value=Guid.NewGuid();   
             <#}#>
         }
@@ -44,32 +45,42 @@ namespace <#=Model.NameSpace#>
             return base.Equals(obj);
         }
 
+        <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.Equal)){#>
         public static bool operator ==(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
         {
-            return c1.Equals(c2);
+            return c1 == c2;
         }
+        <#}#>
 
+        <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.NotEqual)){#>
         public static bool operator !=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
         {
-           return !c1.Equals(c2);
+           return c1 != c2;
         }
+        <#}#>
 
-        <#if(isComparable){  #>
+        <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.GreaterThan)){#>
         public static bool operator >(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
             return c1.Value>c2.Value;
         }
+        <#}#>
 
+        <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.LessThan)){#>
         public static bool operator <(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
             return c1.Value < c2.Value;
         }
+        <#}#>
 
+        <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.GreaterThanOrEqual)){#>
         public static bool operator >=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
             return c1.Value >= c2.Value;
         }
+        <#}#>
 
+        <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.LessThanOrEqual)){#>
         public static bool operator <=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
             return c1.Value <= c2.Value;
