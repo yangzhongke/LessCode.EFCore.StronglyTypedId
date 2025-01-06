@@ -185,7 +185,7 @@ if(modelDataType==typeof(Guid)){
             
             #line default
             #line hidden
-            this.Write("Id c2) \r\n        {\r\n            return c1 == c2;\r\n        }\r\n        ");
+            this.Write("Id c2) \r\n        {\r\n            return c1.Equals(c2);\r\n        }\r\n        ");
             
             #line 53 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 }
@@ -213,7 +213,7 @@ if(modelDataType==typeof(Guid)){
             
             #line default
             #line hidden
-            this.Write("Id c2) \r\n        {\r\n           return c1 != c2;\r\n        }\r\n        ");
+            this.Write("Id c2) \r\n        {\r\n           return !c1.Equals(c2);\r\n        }\r\n        ");
             
             #line 60 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 }

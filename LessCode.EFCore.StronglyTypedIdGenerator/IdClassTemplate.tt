@@ -48,14 +48,14 @@ namespace <#=Model.NameSpace#>
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.Equal)){#>
         public static bool operator ==(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
         {
-            return c1 == c2;
+            return c1.Equals(c2);
         }
         <#}#>
 
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.NotEqual)){#>
         public static bool operator !=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
         {
-           return c1 != c2;
+           return !c1.Equals(c2);
         }
         <#}#>
 
