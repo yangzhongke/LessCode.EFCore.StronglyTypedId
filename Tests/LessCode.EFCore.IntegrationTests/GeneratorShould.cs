@@ -19,6 +19,8 @@ namespace LessCode.EFCore.IntegrationTests
             PersonId idRetrieved = personRetrieved.Id;
             idRetrieved.Value.Should().NotBe(default);
             idRetrieved.Should().Be(personToBeInserted.Id);
+
+            dbContext.Persons.SingleOrDefault(e=>e.Id == idRetrieved).Should().Be(personRetrieved);
         }
 
         [Fact]

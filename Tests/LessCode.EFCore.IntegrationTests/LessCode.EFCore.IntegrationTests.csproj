@@ -26,8 +26,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\LessCode.EFCore.StronglyTypedIdGenerator\LessCode.EFCore.StronglyTypedIdGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-		<ProjectReference Include="..\LessCode.EFCore\LessCode.EFCore.csproj" />
+		<ProjectReference Include="..\..\LessCode.EFCore.StronglyTypedIdGenerator\LessCode.EFCore.StronglyTypedIdGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\LessCode.EFCore\LessCode.EFCore.csproj" />
 	</ItemGroup>
   <ItemGroup>
     <Using Include="Xunit" />

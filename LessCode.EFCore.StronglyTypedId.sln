@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LessCode.EFCore.StronglyTyp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LessCode.EFCore.StronglyTypedIdCommons", "LessCode.EFCore.StronglyTypedIdCommons\LessCode.EFCore.StronglyTypedIdCommons.csproj", "{4E123856-1CA1-4204-BD2C-67B1C09E6EC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreTest1", "EFCoreTest1\EFCoreTest1.csproj", "{993A4B69-3949-4C40-9CE2-154CFA1E7D12}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B86EFBF-CDEA-4E5E-BBEF-67DF51D5EEA9}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -16,15 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LessCode.EFCore", "LessCode.EFCore\LessCode.EFCore.csproj", "{76EA3350-118D-4AED-B8B6-28C15351B5FD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EFCoreTest2", "EFCoreTest2", "{9E1B11F1-E8C0-4686-9EB8-1483588DE17A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitiesProject2", "EntitiesProject2\EntitiesProject2.csproj", "{FA620C79-0BFF-441C-A10F-A546360A1A69}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F2B5B03E-6CCA-4F71-A0BE-B61E96BD1CA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessCode.EFCore.StronglyTypedIdGenerator.UnitTests", "Tests\LessCode.EFCore.StronglyTypedIdGenerator.UnitTests\LessCode.EFCore.StronglyTypedIdGenerator.UnitTests.csproj", "{54CDB173-A59D-4864-BD4C-F87230DC69E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessCode.EFCore.IntegrationTests", "LessCode.EFCore.IntegrationTests\LessCode.EFCore.IntegrationTests.csproj", "{28F22134-6A76-4816-B4D0-90C11B56BA1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessCode.EFCore.IntegrationTests", "Tests\LessCode.EFCore.IntegrationTests\LessCode.EFCore.IntegrationTests.csproj", "{28F22134-6A76-4816-B4D0-90C11B56BA1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,18 +34,10 @@ Global
 		{4E123856-1CA1-4204-BD2C-67B1C09E6EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E123856-1CA1-4204-BD2C-67B1C09E6EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E123856-1CA1-4204-BD2C-67B1C09E6EC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{993A4B69-3949-4C40-9CE2-154CFA1E7D12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{993A4B69-3949-4C40-9CE2-154CFA1E7D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{993A4B69-3949-4C40-9CE2-154CFA1E7D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{993A4B69-3949-4C40-9CE2-154CFA1E7D12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{76EA3350-118D-4AED-B8B6-28C15351B5FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{76EA3350-118D-4AED-B8B6-28C15351B5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76EA3350-118D-4AED-B8B6-28C15351B5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76EA3350-118D-4AED-B8B6-28C15351B5FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA620C79-0BFF-441C-A10F-A546360A1A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA620C79-0BFF-441C-A10F-A546360A1A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA620C79-0BFF-441C-A10F-A546360A1A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA620C79-0BFF-441C-A10F-A546360A1A69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54CDB173-A59D-4864-BD4C-F87230DC69E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{54CDB173-A59D-4864-BD4C-F87230DC69E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54CDB173-A59D-4864-BD4C-F87230DC69E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,7 +51,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FA620C79-0BFF-441C-A10F-A546360A1A69} = {9E1B11F1-E8C0-4686-9EB8-1483588DE17A}
 		{54CDB173-A59D-4864-BD4C-F87230DC69E1} = {F2B5B03E-6CCA-4F71-A0BE-B61E96BD1CA6}
 		{28F22134-6A76-4816-B4D0-90C11B56BA1C} = {F2B5B03E-6CCA-4F71-A0BE-B61E96BD1CA6}
 	EndGlobalSection
