@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq.Expressions;
@@ -70,25 +69,47 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
         /// </summary>
         /// <param name="typeNameOrAliasName">type name(like System.Int32) or alias name(like int)</param>
         /// <returns></returns>
-        public static Type ResolveTypeWithRoslyn(string typeNameOrAliasName)
+        public static Type ResolveTypeFromName(string typeNameOrAliasName)
         {
-            // Minimal C# program that declares a variable of the given type
-            string code = $"using System; class Dummy {{ {typeNameOrAliasName} dummyVariable; }}";
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
-            CSharpCompilation compilation = CSharpCompilation.Create(null,
-                new[] { tree },
-                new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-            );
-            var root = tree.GetRoot();
-            var variableDeclaration = root.DescendantNodes()
-                .OfType<VariableDeclarationSyntax>()
-                .Single();
-            var typeSyntax = variableDeclaration.Type;
-            SemanticModel semanticModel = compilation.GetSemanticModel(tree);
-            var typeSymbol = semanticModel.GetSymbolInfo(typeSyntax).Symbol;
-            string typeFullName = typeSymbol.ContainingNamespace + "." + typeSymbol.MetadataName;
-            return Type.GetType(typeFullName);
+            Type type = ResolveTypeFromPredefinedAlias(typeNameOrAliasName);
+            if (type != null)
+            {
+                return type;
+            }
+            type = Type.GetType(typeNameOrAliasName);
+            if(type == null)
+            {
+                type = Type.GetType("System."+typeNameOrAliasName);
+            }
+            if(type == null)
+            {
+                throw new ArgumentException(nameof(typeNameOrAliasName),$"{typeNameOrAliasName} not found");
+            }
+            return type;
+        }
+
+        private static Type ResolveTypeFromPredefinedAlias(string alias)
+        {
+            switch (alias)
+            {
+                case "object": return typeof(object);
+                case "string": return typeof(string);
+                case "bool": return typeof(bool);
+                case "byte": return typeof(byte);
+                case "sbyte": return typeof(sbyte);
+                case "short": return typeof(short);
+                case "ushort": return typeof(ushort);
+                case "int": return typeof(int);
+                case "uint": return typeof(uint);
+                case "long": return typeof(long);
+                case "ulong": return typeof(ulong);
+                case "float": return typeof(float);
+                case "double": return typeof(double);
+                case "decimal": return typeof(decimal);
+                case "char": return typeof(char);
+                case "void": return typeof(void);
+                default: return null;
+            }
         }
 
         public static bool SupportsBinaryOperator(Type type, ExpressionType operation)

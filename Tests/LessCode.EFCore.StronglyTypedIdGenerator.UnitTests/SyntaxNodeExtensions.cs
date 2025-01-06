@@ -9,6 +9,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
         public static bool HasOperator(this SyntaxNode syntaxNode, string operatorName)
         {
             var operatorDeclarations = syntaxNode.DescendantNodes().OfType<OperatorDeclarationSyntax>();
+            var items = operatorDeclarations.Select(e => e.OperatorToken.Text).ToArray();
             return operatorDeclarations.Any(o => o.OperatorToken.Text == operatorName);
         }
 

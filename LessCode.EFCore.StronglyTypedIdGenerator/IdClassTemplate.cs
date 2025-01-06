@@ -32,7 +32,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
             
             #line 6 "F:\Git代码库\DotNet\LessCode.EFCore\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
 
-Type modelDataType = CodeAnalysisHelper.ResolveTypeWithRoslyn(Model.DataType);
+Type modelDataType = CodeAnalysisHelper.ResolveTypeFromName(Model.DataType);
 
             
             #line default

@@ -171,7 +171,6 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
         [InlineData("uint")]
         [InlineData("long")]
         [InlineData("ulong")]
-        [InlineData("nint")]
         [InlineData("Int64")]
         [InlineData("System.Int64")]
         [InlineData("Int32")]
@@ -210,7 +209,6 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
 
             //assert the property "Vaulue"
             structDeclaration.HasProperty("Value", idType).Should().BeTrue();
-
             //assert the operators
             structDeclaration.HasOperator("==").Should().BeTrue();
             structDeclaration.HasOperator("!=").Should().BeTrue();

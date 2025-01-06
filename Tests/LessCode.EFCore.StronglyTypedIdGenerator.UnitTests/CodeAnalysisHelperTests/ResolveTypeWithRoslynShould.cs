@@ -42,7 +42,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests.CodeAnalysisHelperT
         [InlineData("System.Object", typeof(object))]
         public void ResolveType_Correctly(string typeName, Type expectedType)
         {
-            var type = CodeAnalysisHelper.ResolveTypeWithRoslyn(typeName);
+            var type = CodeAnalysisHelper.ResolveTypeFromName(typeName);
             type.Should().Be(expectedType);
         }
     }
