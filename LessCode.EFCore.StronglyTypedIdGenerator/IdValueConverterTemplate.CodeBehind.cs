@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LessCode.EFCore.StronglyTypedIdGenerator
+﻿namespace LessCode.EFCore.StronglyTypedIdGenerator
 {
     public partial class IdValueConverterTemplate
     {

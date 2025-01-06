@@ -4,7 +4,7 @@
 <#@ import namespace="LessCode.EFCore.StronglyTypedIdGenerator" #>
 
 <#
-Type modelDataType = CodeAnalysisHelper.ResolveTypeWithRoslyn(Model.DataType);
+Type modelDataType = CodeAnalysisHelper.ResolveTypeFromName(Model.DataType);
 #>
 using System;
 using System.Linq.Expressions;
