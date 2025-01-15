@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace <#=Model.NameSpace#>
 {
-    public readonly struct <#=Model.ClassName#>Id
+    public class <#=Model.ClassName#>Id
     {
         public <#=Model.ClassName#>Id()
         {
@@ -48,42 +48,100 @@ namespace <#=Model.NameSpace#>
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.Equal)){#>
         public static bool operator ==(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
         {
-            return c1.Equals(c2);
+            if(c1 is null && c2 is null)
+            {
+                return true;
+            }
+            else if(c1 is null || c2 is null)
+            {
+                return false;
+            }
+            else
+            {
+                return c1.Equals(c2);
+            }
         }
         <#}#>
 
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.NotEqual)){#>
         public static bool operator !=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2) 
         {
-           return !c1.Equals(c2);
+            if(c1 is null && c2 is null)
+            {
+                return false;
+            }
+            else if(c1 is null || c2 is null)
+            {
+                return true;
+            }
+            else
+            {
+                return !c1.Equals(c2);
+            }
         }
         <#}#>
 
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.GreaterThan)){#>
         public static bool operator >(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
-            return c1.Value>c2.Value;
+            if(c1 is null || c2 is null)
+            {
+                return false;
+            }
+            else
+            {
+                return c1.Value>c2.Value;
+            }            
         }
         <#}#>
 
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.LessThan)){#>
         public static bool operator <(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
-        {
-            return c1.Value < c2.Value;
+        {            
+            if(c1 is null || c2 is null)
+            {
+                return false;
+            }
+            else
+            {
+                return c1.Value<c2.Value;
+            }
         }
         <#}#>
 
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.GreaterThanOrEqual)){#>
         public static bool operator >=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
-            return c1.Value >= c2.Value;
+            if(c1 is null && c2 is null)
+            {
+                return true;
+            }
+            else if(c1 is null || c2 is null)
+            {
+                return false;
+            }
+            else
+            {
+                return c1.Value >= c2.Value;
+            }            
         }
         <#}#>
 
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.LessThanOrEqual)){#>
         public static bool operator <=(<#=Model.ClassName#>Id c1, <#=Model.ClassName#>Id c2)
         {
-            return c1.Value <= c2.Value;
+            if(c1 is null && c2 is null)
+            {
+                return true;
+            }
+            else if(c1 is null || c2 is null)
+            {
+                return false;
+            }
+            else
+            {
+                return c1.Value <= c2.Value;
+            }
         }  
         <#}#>
     }
