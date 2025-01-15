@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace LessCode.EFCore
 {
     public class StronglyTypedIdGuidValueGenerator<TEntityId> : ValueGenerator<TEntityId>
-        where TEntityId: struct
+        where TEntityId: class
     {
         public override bool GeneratesTemporaryValues => false;
 
