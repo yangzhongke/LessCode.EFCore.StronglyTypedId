@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>7.0.2</Version>
+    <Version>7.0.1</Version>
     <Authors>Zack Yang</Authors>
     <RepositoryUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</RepositoryUrl>
     <Title>Automatically configure the StronglyTypedId for LessCode.EFCore.StronglyTypedIdGenerator</Title>
