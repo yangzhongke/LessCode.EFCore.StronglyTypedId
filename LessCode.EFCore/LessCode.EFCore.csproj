@@ -5,12 +5,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>7.0.1</Version>
+    <Version>7.0.2</Version>
     <Authors>Zack Yang</Authors>
     <RepositoryUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</RepositoryUrl>
     <Title>Automatically configure the StronglyTypedId for LessCode.EFCore.StronglyTypedIdGenerator</Title>
     <Description>Automatically configure the StronglyTypedId for LessCode.EFCore.StronglyTypedIdGenerator</Description>
     <PackageProjectUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</PackageProjectUrl>
+    <PackageId>$(AssemblyName)</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>

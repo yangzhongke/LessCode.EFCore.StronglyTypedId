@@ -5,13 +5,16 @@
 	  <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <IncludeBuildOutput>false</IncludeBuildOutput>
-	  <Version>7.0.1</Version>
-	  <Authors>Zack Yang</Authors>
+	  <Version>7.0.2</Version>
+	  <Authors>Zack Yang, KFKMan</Authors>
 	  <PackageProjectUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</PackageProjectUrl>
 	  <Title>Source Generator for StronglyTypedId in EntityFrameworkCore</Title>
 	  <Description>Source Generator for StronglyTypedId in EntityFrameworkCore</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId</RepositoryUrl>
+	  <PackageId>$(AssemblyName)</PackageId>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
