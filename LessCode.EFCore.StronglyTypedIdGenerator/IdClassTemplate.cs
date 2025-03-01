@@ -107,7 +107,7 @@ if(modelDataType==typeof(Guid)){
             
             #line default
             #line hidden
-            this.Write(" Value { get; }\r\n\r\n        public static Expression<Func<");
+            this.Write(" Value { get; set; }\r\n\r\n        public static Expression<Func<");
             
             #line 26 "C:\Users\kaan\Source\Repos\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
@@ -172,8 +172,8 @@ if(modelDataType==typeof(Guid)){
             
             #line default
             #line hidden
-            this.Write("Id other)\r\n\t\t{\r\n\t\t\treturn this.Value=other.Value;\r\n\t\t}\r\n\r\n        public int Comp" +
-                    "areTo(");
+            this.Write("Id other)\r\n\t\t{\r\n\t\t\treturn this.Value==other.Value;\r\n\t\t}\r\n\r\n        public int Com" +
+                    "pareTo(");
             
             #line 53 "C:\Users\kaan\Source\Repos\LessCode.EFCore.StronglyTypedId\LessCode.EFCore.StronglyTypedIdGenerator\IdClassTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
