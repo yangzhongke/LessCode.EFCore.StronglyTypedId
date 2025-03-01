@@ -11,7 +11,8 @@ using System.Linq.Expressions;
 
 namespace <#=Model.NameSpace#>
 {
-    public class <#=Model.ClassName#>Id
+    public partial class <#=Model.ClassName#>Id : IComparable, IComparable<<#=Model.ClassName#>Id>,
+		IEquatable<<#=Model.ClassName#>Id>
     {
         public <#=Model.ClassName#>Id()
         {
@@ -20,7 +21,7 @@ namespace <#=Model.NameSpace#>
             <#}#>
         }
         public <#=Model.ClassName#>Id(<#=Model.DataType#> value) => Value = value;
-        public <#=Model.DataType#> Value { get; }
+        public <#=Model.DataType#> Value { get; set; }
 
         public static Expression<Func<<#=Model.ClassName#>Id,<#=Model.DataType#>>> Converter1=v => v.Value;
         public static Expression<Func<<#=Model.DataType#>, <#=Model.ClassName#>Id>> Converter2=v => new <#=Model.ClassName#>Id(v);
@@ -37,12 +38,50 @@ namespace <#=Model.NameSpace#>
 
         public override bool Equals(object obj)
         {
-            if(obj is <#=Model.ClassName#>Id)
+            if(obj is <#=Model.ClassName#>Id entity)
             {
-                <#=Model.ClassName#>Id objId = (<#=Model.ClassName#>Id)obj;
-                return this.Value==objId.Value;
+                return this.Equals(entity);
             }
             return base.Equals(obj);
+        }
+
+        public bool Equals(<#=Model.ClassName#>Id other)
+		{
+			return this.Value==other.Value;
+		}
+
+        public int CompareTo(<#=Model.ClassName#>Id other)
+		{
+			if (other == null){
+				return 1; 
+            }
+
+            if(other.Value == null){
+                if(this.Value == null){
+                    return 0;
+                }
+                else{
+                    return 1;
+                }
+            }
+
+            if(this.Value == null){
+                return -1;
+            }
+			return CompareTo(other.Value);
+		}
+
+        public int CompareTo(object obj)
+        {
+            if(obj is <#=Model.ClassName#>Id entity){
+                return CompareTo(entity);
+            }
+
+            <# if(CodeAnalysisHelper.SupportsCompareToType(modelDataType,modelDataType) || CodeAnalysisHelper.SupportsCompare(modelDataType)){#>
+                return this.Value.CompareTo(obj);
+            <#} else {#>
+                throw new NotSupportedException("Entity Type (<#=Model.DataType#>) doesn't support both of IComparable and IComparable<<#=Model.DataType#>>");
+            <#}#>
         }
 
         <# if(CodeAnalysisHelper.SupportsBinaryOperator(modelDataType, ExpressionType.Equal)){#>
