@@ -119,7 +119,7 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator
 
         public static bool SupportsCompareToType(Type type, Type otherType)
         {
-			return typeof(IComparable<>).MakeGenericType(type).IsAssignableFrom(type);
+			return typeof(IComparable<>).MakeGenericType(otherType).IsAssignableFrom(type);
 		}
 
         public static bool SupportsBinaryOperator(Type type, ExpressionType operation)
