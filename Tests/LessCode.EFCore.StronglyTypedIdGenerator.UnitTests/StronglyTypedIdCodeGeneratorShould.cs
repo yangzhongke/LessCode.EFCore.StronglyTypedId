@@ -309,5 +309,35 @@ namespace LessCode.EFCore.StronglyTypedIdGenerator.UnitTests
             classDeclaration.HasOperator(">=").Should().BeTrue();
             classDeclaration.HasOperator("<=").Should().BeTrue();
         }
+        
+        //https://github.com/yangzhongke/LessCode.EFCore.StronglyTypedId/issues/9
+        [Fact]
+        public void Generate_IdClass_Successfully_When_Multiple_Attributes()
+        {
+            string sourceCode = @"
+                using Microsoft.EntityFrameworkCore;
+                namespace EntitiesProject2
+                {
+                    [HasStronglyTypedId]
+                    [Index(nameof(String))]
+                    public record Cat
+                    {
+                        public CatId Id { get; set; }
+                        public string Name { get; set; }
+                    }
+                }";
+            Compilation inputCompilation = CSharpCompilation.Create(null,
+                new[] { CSharpSyntaxTree.ParseText(sourceCode) });
+
+            StronglyTypedIdCodeGenerator sut = new StronglyTypedIdCodeGenerator();
+            GeneratorDriver driver = CSharpGeneratorDriver.Create(sut);
+            driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
+            diagnostics.Should().HaveCount(1);
+            diagnostics[0].Severity.Should().Be(DiagnosticSeverity.Warning);
+            diagnostics[0].GetMessage().Should().Match("*Assembly Microsoft.EntityFrameworkCore is not added into the project*ValueConverter types will not be automatically generated*Please add reference Microsoft.EntityFrameworkCore to*or write the ValueConverter types manually*");
+            GeneratorRunResult generatorResult = driver.GetRunResult().Results[0];
+            generatorResult.GeneratedSources.Should().HaveCount(1);
+            generatorResult.Exception.Should().BeNull();
+        }
     }
 }

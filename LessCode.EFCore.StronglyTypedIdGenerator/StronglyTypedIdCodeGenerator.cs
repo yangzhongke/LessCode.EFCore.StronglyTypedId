@@ -42,7 +42,7 @@ namespace LessCode.EFCore.StronglyTypedId
         {
             string ns = ((BaseNamespaceDeclarationSyntax)classDef.Parent).Name.GetText().ToString();
             string className = classDef.Identifier.Text;
-            var hasStronglyTypedIdAttr = classDef.ChildNodes().OfType<AttributeListSyntax>().Single().ChildNodes().OfType<AttributeSyntax>().Single(e=>e.Name.GetText().ToString()== nameof(HasStronglyTypedIdAttribute) || e.Name.GetText().ToString() == nameof(HasStronglyTypedIdAttribute).Replace("Attribute", ""));
+            var hasStronglyTypedIdAttr = classDef.DescendantNodes().OfType<AttributeSyntax>().Single(e=>e.Name.GetText().ToString()== nameof(HasStronglyTypedIdAttribute) || e.Name.GetText().ToString() == nameof(HasStronglyTypedIdAttribute).Replace("Attribute", ""));
             IEnumerable<AttributeArgumentSyntax> args = new AttributeArgumentSyntax[0]; 
             if (hasStronglyTypedIdAttr.ArgumentList != null)
                 args = hasStronglyTypedIdAttr.ArgumentList.Arguments;
