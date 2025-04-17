@@ -37,13 +37,18 @@ namespace LessCode.EFCore
             else if (idClrType == typeof(Guid))
             {
                 keyProp.ValueGenerated = ValueGenerated.OnAdd;
-                keyProp.SetValueGeneratorFactory((p, et) =>
+                Func<IProperty, ITypeBase, ValueGenerator>? valueGeneratorFactory = (p, et) =>
                 {
                     Type typeValueGenerator =
                         typeof(StronglyTypedIdGuidValueGenerator<>).MakeGenericType(keyClrType);
                     var valueGenerator = Activator.CreateInstance(typeValueGenerator);
                     return (ValueGenerator)valueGenerator;
-                });
+                };
+                //SetValueGeneratorFactory have different signature in different EFCore version.
+                //some is : SetValueGeneratorFactory(func,ConfigurationSource=default),
+                //some is : SetValueGeneratorFactory(func)
+                //which are not binary compatible.
+                ((dynamic)keyProp).SetValueGeneratorFactory(valueGeneratorFactory);
             }
         }
 
