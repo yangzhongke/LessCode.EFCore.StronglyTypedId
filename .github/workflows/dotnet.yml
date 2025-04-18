@@ -23,9 +23,21 @@ jobs:
           7.0.x
           8.0.x
           9.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Restore dependencies(.NET 7)
+      run: dotnet restore LessCode.EFCore.StronglyTypedId.sln
+    - name: Build(.NET 7)
+      run: dotnet build LessCode.EFCore.StronglyTypedId.sln --no-restore
+    - name: Test(.NET 7)
+      run: dotnet test LessCode.EFCore.StronglyTypedId.sln --no-build --verbosity normal
+    - name: Restore dependencies(.NET 8)
+      run: dotnet restore LessCode.EFCore.StronglyTypedId.NET8.sln
+    - name: Build(.NET 8)
+      run: dotnet build LessCode.EFCore.StronglyTypedId.NET8.sln --no-restore
+    - name: Test(.NET 8)
+      run: dotnet test LessCode.EFCore.StronglyTypedId.NET8.sln --no-build --verbosity normal
+    - name: Restore dependencies(.NET 9)
+      run: dotnet restore LessCode.EFCore.StronglyTypedId.NET9.sln
+    - name: Build(.NET 9)
+      run: dotnet build LessCode.EFCore.StronglyTypedId.NET9.sln --no-restore
+    - name: Test(.NET 9)
+      run: dotnet test LessCode.EFCore.StronglyTypedId.NET9.sln --no-build --verbosity normal
