@@ -48,7 +48,23 @@ namespace LessCode.EFCore
                 //some is : SetValueGeneratorFactory(func,ConfigurationSource=default),
                 //some is : SetValueGeneratorFactory(func)
                 //which are not binary compatible.
-                ((dynamic)keyProp).SetValueGeneratorFactory(valueGeneratorFactory);
+                var methodSetValueGeneratorFactory = keyProp.GetType().GetMethods().Single(e =>
+                    e.Name == nameof(keyProp.SetValueGeneratorFactory) &&
+                    e.GetParameters()[0].ParameterType==typeof(Func<IProperty, IEntityType, ValueGenerator>));
+                var methodSetValueGeneratorFactoryParams = methodSetValueGeneratorFactory.GetParameters();
+                if (methodSetValueGeneratorFactoryParams.Length == 1)
+                {
+                    methodSetValueGeneratorFactory.Invoke(keyProp, new object[] { valueGeneratorFactory });
+                }
+                else if (methodSetValueGeneratorFactoryParams.Length == 2&&
+                         methodSetValueGeneratorFactoryParams[1].ParameterType==typeof(ConfigurationSource))
+                {
+                    methodSetValueGeneratorFactory.Invoke(keyProp, new object[] { valueGeneratorFactory, ConfigurationSource.Convention });
+                }
+                else
+                {
+                    throw new NotImplementedException("Unknown signature of SetValueGeneratorFactory:"+methodSetValueGeneratorFactory);
+                }
             }
         }
 
