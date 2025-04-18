@@ -50,7 +50,8 @@ namespace LessCode.EFCore
                 //which are not binary compatible.
                 var methodSetValueGeneratorFactory = keyProp.GetType().GetMethods().Single(e =>
                     e.Name == nameof(keyProp.SetValueGeneratorFactory) &&
-                    e.GetParameters()[0].ParameterType==typeof(Func<IProperty, IEntityType, ValueGenerator>));
+                    e.GetParameters()[0].ParameterType.IsGenericType&&
+                    e.GetParameters()[0].ParameterType.GetGenericTypeDefinition()==typeof(Func<, , >));
                 var methodSetValueGeneratorFactoryParams = methodSetValueGeneratorFactory.GetParameters();
                 if (methodSetValueGeneratorFactoryParams.Length == 1)
                 {
